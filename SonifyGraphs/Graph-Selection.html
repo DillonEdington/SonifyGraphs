@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph Selection</title>
+    <style>
+        body {
+            max-width: 1440px;
+            height: 900px;
+            margin: 0;
+            background-color: #C5D8FA;
+        }
+        .text {
+            position: relative;
+            width: 100%;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 5%;
+            white-space: nowrap;
+            top: 50%;
+            left: 50%;
+            font-size: 16px;
+            z-index: 3;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+        .button1 {
+            width: auto;
+            height: auto;
+            padding: 10px 10px;
+            background-color: #6DA1EE;
+            border: black;
+            color: black;
+            font-size: 20px;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            text-decoration: none;
+            cursor: pointer;
+            display: inline-block;
+            margin: 55% 50% auto;
+            white-space: nowrap;
+            text-align: center;
+            transform: translate(-50%, -450%);
+        }
+        .button2 {
+            position: absolute;
+            width: 100px;
+            height: 25px;
+            padding: 10px 10px;
+            background-color: #51C7AC;
+            border: black;
+            color: black;
+            font-size: 20px;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            text-decoration: none;
+            cursor: pointer;
+            display: inline-block;
+            white-space: nowrap;
+            text-align: center;
+            left: 25%;
+        }
+        .colored-box1 {
+            position: relative;
+            width: 1000px;
+            height: 600px;
+            background-color: #FDC269;
+            border: 5px black;
+            margin: 20px auto;
+            opacity: .80;
+            z-index: 0;
+        }
+        .colored-box2 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 720px;
+            height: 380px;
+            background-color: #FFFFFF;
+            opacity: .5;
+            z-index: 2;
+            transform: translate(-120%, -55%);
+        }
+        .colored-box2-container {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+            margin-left: 20px;
+        }
+        input[type="checkbox"] {
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="colored-box1">
+            <div class="text" style="top:13%; left:-22%;">
+                <h1>Line Graph</h1>
+            </div>
+            <div class="text" style="top:-1.5%; left:22%;">
+                <h1>Bar Graph</h1>
+            </div>
+            <div class="colored-box2-container">
+                <div class="colored-box2" style="height:450px; width:315px;"></div>
+                <input type="checkbox" id="lineGraph" value="Line" style="top:15%; left: 15%; z-index:4;" onclick="handleCheckboxChange(this)">
+                <input type="checkbox" id="barGraph" value="Bar" style="top:15%; left: 60%; z-index:4;" onclick="handleCheckboxChange(this)">
+                <div class="colored-box2" style="transform: translate(20%, -55%);height:450px; width:315px;"></div>
+            </div>
+            <button class="button1" onclick="confirmSelection()">Confirm</button>
+        </div>
+        <a href="Index.html" class="button2" style="left:14.5%; width: 130px;">Return to Start</a>
+    </main>
+
+    <!-- Load external script -->
+    <script src="scripts/graphSelection.js"></script>
+</body>
+</html>
