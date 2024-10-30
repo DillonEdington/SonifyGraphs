@@ -6,11 +6,28 @@ function parseCSV(data) {
     const labels = [];
     const values = [];
     
-    rows.forEach((row, index) => {
+	//checks whether csv file has enough data to parse
+	if (rows.length < 2)
+	{
+		throw new Error("Data is not compatible.");
+	}
+    
+	rows.forEach((row, index) => {
         if (index === 0) return; // skip header row
         const cols = row.split(',');
-        labels.push(cols[0]);
-        values.push(parseFloat(cols[1]));
+        //checks if csv file has one column for names and one for numbers
+		if (cols.length < 2)
+		{
+			throw new Error("Data is not compatible.");
+		}
+		labels.push(cols[0]);
+        const value = parseFloat(cols[1]);
+		//checks if values are compatible with graph
+		if (isNaN(value))
+		{
+			throw new Error("Data is not compatible.");
+		}
+		values.push(value);
     });
 
     return { labels, values };
@@ -59,9 +76,26 @@ function setupGraph() {
         return;
     }
 
-    // Parse CSV data and create the chart
-    const data = parseCSV(csvData);
-    createChart(selectedGraph, data.labels, data.values);
+    try
+	{
+		// Parse CSV data and create the chart
+    	const data = parseCSV(csvData);
+		//for line graph
+		if (selectedGraph === 'Line' && data.labels.length < 2) {
+			alert("Data not compatible with line graph!");
+			return;
+		}
+		//for bar graph
+		if (selectedGraph === 'Bar' && data.labels.legnth < 2) {
+			alert("Data not compatible with bar graph!");
+			return;
+		}
+    	createChart(selectedGraph, data.labels, data.values);
+	} catch (error) {
+		alert("Data is not compatible.");
+		window.location.href = 'Upload.html';
+	}
+	
 }
 
 // Call the setup function when the page loads
