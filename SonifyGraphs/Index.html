@@ -1,54 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-    <title> Sonify Graph</title>
-        <style>
-            body{
-                    max-width:1440px;
-                    height: 900;
-                    margin: 0 auto;
-                    padding: 50 px;
-                    background-color: #C5D8FA;
-                }
-                .text{
-                    width: 100%;
-                    text-align: center;
-                    margin-top: 10%;
-                    margin-bottom: 5%;
-                    white-space: nowrap;
-                    top: 50%;
-                    left: 50%;
-                    font-size: 16px;
-                    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-
-                }
-                .button1{
-                    width: 100px ;
-                    height: 25px;
-                    padding: 10px 10px;
-                    background-color: #6DA1EE;
-                    border: black;
-                    color: black;
-                    font-size: 16px;
-                    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-                    text-decoration: none;
-                    cursor:pointer;
-                    display: inline-block;
-                    margin: 2.5% 50% auto ;
-                    white-space: nowrap;
-                    text-align: center;
-                    transform: translate(-50%, -50%)
-                }
-
-        </style>
-    <body style = "background-color:#C5D8FA">
-        <main> 
-            <div class = "text">
-                <h1>Welcome to Graph Sonification!</h1>
-            </div>
-            <a href="Upload.html" class="button1">Upload Data</a>
-            <a href="Enter-Data.html" class="button1">Enter Data</a>
-        </main>
-
-        
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <title>Sonify Graph</title>
+    <!-- Link to global styles and page-specific styles -->
+    <link rel="stylesheet" href="styles/global.css">
+    <link rel="stylesheet" href="styles/index.css">
+</head>
+<body>
+    <main>
+        <div class="text">
+            <h1>Welcome to Graph Sonification!</h1>
+        </div>
+        <div class="button-container">
+            <!-- Navigation buttons to upload or enter data -->
+            <a href="upload.html" class="button">Upload Data</a>
+            <a href="enter-data.html" class="button">Enter Data</a>
+        </div>
+    </main>
+    <!-- Include any global scripts if needed -->
+    <script src="scripts/main.js"></script>
+</body>
 </html>
