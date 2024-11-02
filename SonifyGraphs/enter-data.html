@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Enter Data</title>
+    <!-- Link to global and page-specific styles -->
+    <link rel="stylesheet" href="styles/global.css">
+    <link rel="stylesheet" href="styles/enter-data.css">
+</head>
+<body>
+    <main>
+        <div class="container">
+            <h1>Enter Data Manually</h1>
+            <!-- Table for data entry -->
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th>Label</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Rows will be added dynamically using JavaScript -->
+                </tbody>
+            </table>
+            <!-- Buttons to add or delete rows -->
+            <div class="button-group">
+                <button id="add-row">Add Row</button>
+                <button id="delete-row">Delete Row</button>
+            </div>
+            <!-- Navigation buttons -->
+            <div class="navigation">
+                <a href="index.html" class="nav-button">Return</a>
+                <button id="continueButton" class="nav-button">Continue</button>
+            </div>
+        </div>
+    </main>
+    <!-- Include the script for this page -->
+    <script src="scripts/enter-data.js"></script>
+</body>
+</html>

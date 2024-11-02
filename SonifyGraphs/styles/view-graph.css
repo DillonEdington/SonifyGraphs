@@ -1,0 +1,43 @@
+/* Styles specific to view-graph.html */
+
+#myChart {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.range-selection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.range-selection label {
+    font-weight: bold;
+}
+
+.range-selection input {
+    width: 60px;
+    padding: 5px;
+}
+
+.range-selection button {
+    padding: 10px 15px;
+    /* Blue button background */
+    background-color: #6DA1EE;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.range-selection button:hover {
+    /* Darker blue on hover */
+    background-color: #5b8bd8;
+}
+
+.navigation {
+    margin-top: 20px;
+}
