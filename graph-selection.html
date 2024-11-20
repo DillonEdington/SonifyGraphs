@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Graph Selection</title>
+    <!-- Link to global and page-specific styles -->
+    <link rel="stylesheet" href="styles/global.css">
+    <link rel="stylesheet" href="styles/graph-selection.css">
+</head>
+<body>
+    <main>
+        <div class="container">
+            <!-- Form for selecting the graph type -->
+            <div class = "colored-box1">
+            <h1 class = "heading">Select Graph Type</h1>
+            <form id="graph-selection-form">
+                <div class="graph-option">
+                    <input type="radio" id="lineGraph" name="graphType" value="Line">
+                    <label for="lineGraph">Line Graph</label>
+                </div>
+                <div class="graph-option">
+                    <input type="radio" id="barGraph" name="graphType" value="Bar">
+                    <label for="barGraph">Bar Graph</label>
+                </div>
+                <div class="graph-option">
+                    <input type="radio" id="scatterPlot" name="graphType" value="Scatter">
+                    <label for="scatterPlot">Scatter Plot</label>
+                </div>
+                <!-- Confirm button to submit the form -->
+                <button type="submit" class="button1" style = "left:445px; bottom:-85px">Confirm</button>
+            </form>
+            </div>
+            <!-- Navigation button to return to the start page -->
+            <div class="navigation">
+                <a href="index.html" class="button2" style ="right:412px; bottom:40px;">Return to Start</a>
+            </div>
+        </div>
+    </main>
+    <!-- Include the script for this page -->
+    <script src="scripts/graph-selection.js"></script>
+</body>
+</html>
