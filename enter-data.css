@@ -1,0 +1,92 @@
+/* Styles specific to enter-data.html */
+
+table {
+    width: 90%;
+    border-collapse: collapse;
+    margin-top: 80px;
+    margin-bottom: 20px;
+    margin-left: 50px;
+}
+
+table th, table td {
+    border: 1px solid #00000047;
+    padding: 10px;
+    text-align: left;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    margin-left: 50px;
+    margin-right: 50px;
+
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    outline: none;
+
+}
+
+.button-group button {
+    position: relative;
+    padding: 10px 15px;
+    /* Blue button background */
+    background-color: #6DA1EE;
+    color: black;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button-group button:hover {
+    /* Darker blue on hover */
+    background-color: #5b8bd8;
+}
+
+.navigation {
+    display: flex;
+    justify-content: space-between;
+}
+
+.heading {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    top: 40px;
+    white-space: nowrap;
+    font-size: 30px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.colored-box1 {
+    position: relative;
+    width: 1000px;
+    height: 600px;
+    background-color: #FDC269;
+    border: 5px black;
+    margin: 20px auto;
+    opacity: .80;
+    transform: translate(-10%, 0%);
+    z-index: 0;
+    justify-content: center;
+}
+.button2 {
+    position: relative;
+    width: 60px;
+    height: 25px;
+    padding: 10px 10px;
+    background-color: #51C7AC;
+    border: none;
+    color: black;
+    font-size: 20px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 10px;
+    
+}
+.button2:hover {
+    /* Darker green on hover */
+    background-color: #41a38c;
+}
