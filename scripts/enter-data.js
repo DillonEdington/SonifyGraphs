@@ -81,6 +81,9 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        // **Clear uploadedCSV from localStorage**
+        localStorage.removeItem('uploadedCSV');
+
         // Store data in localStorage
         localStorage.setItem('manualData', JSON.stringify({ labels, values }));
         window.location.href = 'graph-selection.html';
