@@ -51,15 +51,13 @@
             <h1 class="heading">Upload CSV Data</h1>
             <div class="colored-box2">
                 <div class="form-container">
-                    <form id="upload-form">
-                        <!-- File input and label -->
-                        <label for="fileInput" class="file-label button1">Choose CSV File</label>
-                        <input type="file" id="fileInput" accept=".csv" required hidden>
-                        <!-- Display selected file name -->
-                        <span id="fileNameDisplay">No file selected</span>
-                        <!-- Upload button -->
-                        <button type="submit" class="button1">Upload</button>
-                    </form>
+                    <!-- File input and label -->
+                    <label for="fileInput" class="file-label button1">Choose CSV File</label>
+                    <input type="file" id="fileInput" accept=".csv" required hidden>
+                    <!-- Display selected file name -->
+                    <span id="fileNameDisplay">No file selected</span>
+                    <!-- Upload button -->
+                    <button id="uploadButton" class="button1" disabled>Upload</button>
                     <!-- Navigation button -->
                     <a href="index.html" class="button2">Return</a>
                 </div>
