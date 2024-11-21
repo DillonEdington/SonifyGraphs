@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
             startIndex < 0 ||
             endIndex >= window.values.length
         ) {
-            alert("Please enter valid start and end indices.");
+            alert(`Please enter valid start and end indices between 0 and ${window.values.length - 1}.`);
             return;
         }
 
@@ -48,8 +48,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to map data values to frequencies
     function mapValueToFrequency(value) {
-        const minFreq = 100; // Minimum frequency (in Hz)
-        const maxFreq = 1000; // Maximum frequency (in Hz)
+        const minFreq = 200; // Minimum frequency (in Hz)
+        const maxFreq = 800; // Maximum frequency (in Hz)
         const minValue = Math.min(...window.values); // Minimum data value
         const maxValue = Math.max(...window.values); // Maximum data value
 

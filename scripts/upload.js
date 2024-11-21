@@ -11,14 +11,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const file = event.target.files[0];
         if (file) {
             // Validate file type and size
-            if (file.type !== 'text/csv' && !file.name.endsWith('.csv')) {
+            if (!file.name.endsWith('.csv')) {
                 alert("Invalid file type. Please upload a CSV file.");
                 fileInput.value = '';
+                fileNameDisplay.textContent = 'No file selected';
                 return;
             }
             if (file.size > 2 * 1024 * 1024) { // 2 MB limit
                 alert("File is too large. Please upload a file smaller than 2 MB.");
                 fileInput.value = '';
+                fileNameDisplay.textContent = 'No file selected';
                 return;
             }
             // Display the selected file name
@@ -37,8 +39,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle form submission
     uploadForm.addEventListener('submit', function(event) {
         event.preventDefault();
-        if (!localStorage.getItem('uploadedCSV')) {
+        if (!fileInput.value) {
             alert("Please select a CSV file.");
+            return;
+        }
+        if (!localStorage.getItem('uploadedCSV')) {
+            alert("File not ready yet. Please wait a moment and try again.");
             return;
         }
         // Redirect to the graph selection page

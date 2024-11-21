@@ -9,7 +9,7 @@ window.yAxisLabel = 'Y-axis';
 
 // Function to parse CSV data into labels and values arrays
 function parseCSV(data) {
-    const rows = data.trim().split('\n'); // Split data into rows
+    const rows = data.trim().split('\n');
     window.labels = [];
     window.values = [];
 
@@ -67,8 +67,8 @@ function createChart(type, labels, values) {
             datasets: [{
                 label: window.yAxisLabel,
                 data: values,
-                backgroundColor: type === 'Bar' ? 'rgba(75, 192, 192, 0.2)' : 'rgba(255, 99, 132, 0.2)',
-                borderColor: type === 'Bar' ? 'rgba(75, 192, 192, 1)' : 'rgba(255, 99, 132, 1)',
+                backgroundColor: type === 'bar' ? 'rgba(75, 192, 192, 0.2)' : 'rgba(255, 99, 132, 0.2)',
+                borderColor: type === 'bar' ? 'rgba(75, 192, 192, 1)' : 'rgba(255, 99, 132, 1)',
                 borderWidth: 1,
                 fill: false
             }]
