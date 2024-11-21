@@ -1,0 +1,14 @@
+/* styles/index.css */
+
+.text {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 30px;
+}

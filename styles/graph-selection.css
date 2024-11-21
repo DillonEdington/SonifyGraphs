@@ -1,0 +1,17 @@
+/* styles/graph-selection.css */
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.graph-options {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.graph-option {
+    margin-bottom: 10px;
+}

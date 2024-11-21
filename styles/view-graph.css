@@ -1,0 +1,35 @@
+/* styles/view-graph.css */
+
+.chart-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#myChart {
+    width: 100%;
+    height: auto;
+}
+
+/* Range Selection */
+.range-selection {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.range-selection label {
+    font-weight: bold;
+}
+
+.range-selection input {
+    width: 60px;
+    padding: 5px;
+}
+
+.range-selection .button1 {
+    margin-top: 10px;
+}
