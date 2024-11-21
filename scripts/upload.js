@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const fileInput = document.getElementById('fileInput');
     const fileNameDisplay = document.getElementById('fileNameDisplay');
     const uploadButton = document.getElementById('uploadButton');
+	const uploadForm = document.getElementById('uploadForm');
 
     let fileReady = false;
 
@@ -52,7 +53,24 @@ document.addEventListener('DOMContentLoaded', function() {
             alert("File is not ready yet. Please wait a moment.");
             return;
         }
-        // Redirect to the graph selection page
-        window.location.href = 'graph-selection.html';
+		
+		//for database
+		event.preventDefault();
+		const formData = new FormData(uploadForm);
+		formData.append('csvFile', fileInput.files[0]);
+		
+		fetch('/upload', {
+			method: 'POST', 
+			body: formData,
+		})
+		.then(response => response.text())
+		.then(data => {
+			console.log(data);
+	        // Redirect to the graph selection page
+	        window.location.href = 'graph-selection.html';
+		})
+        .catch(error => {
+        	console.error('Error Uploading File:', error);
+        })
     });
 });
