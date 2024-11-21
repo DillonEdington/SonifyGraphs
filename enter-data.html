@@ -1,3 +1,4 @@
+<!-- enter-data.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,37 +9,70 @@
     <link rel="stylesheet" href="styles/enter-data.css">
 </head>
 <body>
-    <main>
-        <div class="container">
-            <div class = "colored-box1">
-            <h1 class = "heading" style = "margin-bottom: 60px;">Enter Data Manually</h1>
-            <!-- Table for data entry -->
-            <table id="dataTable">
-                <thead>
-                    <tr>
-                        <th>Label</th>
-                        <th>Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Rows will be added dynamically using JavaScript -->
-                </tbody>
-            </table>
-            <!-- Buttons to add or delete rows -->
-            <div class="button-group">
-                <button id="add-row">Add Row</button>
-                <button id="delete-row">Delete Row</button>
+    <!-- Header Component -->
+    <header class="main-header">
+        <div class="header-content">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="assets/logo.png" alt="Project Logo">
+                </a>
             </div>
-            
-            <!-- Navigation buttons -->
-            <div class="navigation">
-                <a href="index.html" class="button2" style = "left:10px;">Return</a>
-                <button id="continueButton" class="nav-button" style = "right:10px;">Continue</button>
-            </div>
+            <nav class="header-nav">
+                <button id="infoButton" class="icon-button" aria-label="Information" aria-haspopup="dialog" aria-controls="infoModal">
+                    <img src="assets/info-icon.png" alt="">
+                </button>
+                <button id="settingsButton" class="icon-button" aria-label="Settings" aria-haspopup="dialog" aria-controls="settingsModal">
+                    <img src="assets/settings-icon.png" alt="">
+                </button>
+            </nav>
         </div>
+    </header>
+
+    <!-- Info Modal -->
+    <div id="infoModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="infoModalTitle" tabindex="-1" hidden>
+        <div class="modal-content">
+            <h2 id="infoModalTitle">Information</h2>
+            <p>This application helps you convert graphical data into audible sounds, making data accessible for visually impaired users.</p>
+            <button class="close-button" data-close="infoModal">Close</button>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="settingsModalTitle" tabindex="-1" hidden>
+        <div class="modal-content">
+            <h2 id="settingsModalTitle">Settings</h2>
+            <!-- Future settings content goes here -->
+            <button class="close-button" data-close="settingsModal">Close</button>
+        </div>
+    </div>
+
+    <main>
+        <div class="colored-box1">
+            <h1 class="heading">Enter Data Manually</h1>
+            <div class="colored-box2">
+                <div class="form-container">
+                    <form id="dataForm">
+                        <div id="dataRows">
+                            <!-- Data rows added dynamically -->
+                        </div>
+                        <div class="button-group">
+                            <button type="button" id="addRowButton" class="button2">Add Row</button>
+                            <button type="button" id="deleteRowButton" class="button2">Delete Row</button>
+                        </div>
+                        <!-- Navigation buttons -->
+                        <div class="navigation">
+                            <a href="index.html" class="button1">Return</a>
+                            <button type="submit" id="continueButton" class="button1">Continue</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </main>
-    <!-- Include the script for this page -->
-    <script src="scripts/enter-data.js"></script>
+
+    <!-- Include page-specific script -->
+    <script src="scripts/enter-data.js" defer></script>
+    <!-- Include global script -->
+    <script src="scripts/main.js" defer></script>
 </body>
 </html>
