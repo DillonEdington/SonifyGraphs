@@ -15,3 +15,30 @@
 .graph-option {
     margin-bottom: 10px;
 }
+
+#graph-selection-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Style for graph name input */
+.graph-name-input {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.graph-name-input label {
+    margin-bottom: 5px;
+}
+
+.graph-name-input input {
+    width: 100%;
+    max-width: 300px;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}

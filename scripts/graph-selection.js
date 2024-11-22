@@ -13,8 +13,18 @@ document.addEventListener('DOMContentLoaded', function() {
             alert("Please select a graph type.");
             return;
         }
-        // Store the selected graph type in localStorage
+
+        // Get the graph name, if any
+        const graphNameInput = document.getElementById('graphName');
+        const graphName = graphNameInput.value.trim();
+
+        // Store the selected graph type and graph name
         localStorage.setItem('selectedGraph', selectedGraph.value);
+        if (graphName) {
+            localStorage.setItem('graphName', graphName);
+        } else {
+            localStorage.removeItem('graphName');
+        }
         // Redirect to the view graph page
         window.location.href = 'view-graph.html';
     });

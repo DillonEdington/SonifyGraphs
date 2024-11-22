@@ -140,4 +140,15 @@ function createChart(type, labels, values) {
 }
 
 // Call the setupGraph function when the page loads
-window.onload = setupGraph;
+window.onload = function() {
+    // Set the graph title
+    const graphTitleElement = document.getElementById('graphTitle');
+    const graphName = localStorage.getItem('graphName');
+    if (graphName) {
+        graphTitleElement.textContent = graphName;
+    } else {
+        graphTitleElement.textContent = 'Your Graph';
+    }
+    // Proceed to set up the graph
+    setupGraph();
+};
