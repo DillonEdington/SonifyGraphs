@@ -33,3 +33,33 @@
 .range-selection .button1 {
     margin-top: 10px;
 }
+
+/* Adjusted playback controls to accommodate the Reset button */
+.playback-controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.playback-controls .button1 {
+    margin-top: 10px;
+}
+
+/* Styles for disabled buttons */
+.button1:disabled {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+}
+
+.button1:disabled:hover {
+    background-color: #cccccc;
+}
+
+/* Ensure that disabled buttons are not focusable */
+.button1:disabled:focus {
+    outline: none;
+}
