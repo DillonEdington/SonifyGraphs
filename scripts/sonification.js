@@ -22,7 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Start the AudioContext if not already started
         await Tone.start();
 
-        if (!isPlaying && !isFinished) {
+        if (!isPlaying && !isFinished && !sequence) {
+            // Starting new sonification
             const startIndex = parseInt(document.getElementById('startIndex').value);
             const endIndex = parseInt(document.getElementById('endIndex').value);
 
@@ -56,13 +57,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Call the function to sonify the selected data range
             sonifyData(window.labels, window.values, startIndex, endIndex, speed);
-        }
-        else if (isFinished) {
+
+        } else if (isFinished) {
             // Sonification is finished; disable play button
             playButton.disabled = true;
             playButton.setAttribute('aria-disabled', 'true');
-        }
-        else {
+        } else if (sequence) {
             // Resume playback
             Tone.Transport.start();
             isPlaying = true;
@@ -82,12 +82,6 @@ document.addEventListener('DOMContentLoaded', function() {
             playButton.setAttribute('aria-disabled', 'false');
             pauseButton.disabled = true;
             pauseButton.setAttribute('aria-disabled', 'true');
-
-            // Clear any scheduled events
-            if (scheduledId !== null) {
-                Tone.Transport.clear(scheduledId);
-                scheduledId = null;
-            }
         }
     });
 
@@ -121,6 +115,9 @@ document.addEventListener('DOMContentLoaded', function() {
         pauseButton.setAttribute('aria-disabled', 'true');
         resetButton.disabled = false;
         resetButton.setAttribute('aria-disabled', 'false');
+
+        // Reset the transport position
+        Tone.Transport.position = 0;
     });
 
     // Event listener for the speed control
@@ -160,9 +157,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // Adjust the playback speed
         Tone.Transport.bpm.value = 120 * speed;
 
-        // Calculate the duration of a '4n' note after setting the BPM
-        const noteDuration = Tone.Time('4n').toSeconds();
-
         // Create a sequence
         sequence = new Tone.Sequence((time, frequency) => {
             synth.triggerAttackRelease(frequency, '8n', time);
@@ -181,6 +175,7 @@ document.addEventListener('DOMContentLoaded', function() {
         isFinished = false;
 
         // Calculate the total duration
+        const noteDuration = Tone.Time('4n').toSeconds();
         const totalDuration = frequencies.length * noteDuration;
 
         // Schedule stopPlayback() after the total duration
@@ -230,7 +225,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const minFreq = 200; // Minimum frequency (in Hz)
         const maxFreq = 800; // Maximum frequency (in Hz)
         const minValue = Math.min(...window.values); // Minimum data value
-        const maxValue = Math.max(...window.values); // Maximum data value
+        const maxValue = Math.max(...window.values);
 
         // Handle the case where all values are the same
         if (minValue === maxValue) {
