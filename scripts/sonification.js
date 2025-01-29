@@ -36,6 +36,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 endIndex >= window.values.length
             ) {
                 alert(`Please enter valid start and end indices between 0 and ${window.values.length - 1}.`);
+                //edit input data to fit within valid parameters
+                document.getElementById('endIndex').value= window.values.length-1;
                 return;
             }
 

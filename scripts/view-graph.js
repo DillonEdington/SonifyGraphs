@@ -151,4 +151,6 @@ window.onload = function() {
     }
     // Proceed to set up the graph
     setupGraph();
+    //st end index to maximum value of current graph
+    document.getElementById('endIndex').value= window.values.length-1;
 };
