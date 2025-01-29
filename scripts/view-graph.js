@@ -139,6 +139,19 @@ function createChart(type, labels, values) {
     new Chart(ctx, chartConfig);
 }
 
+// Function to download the chart as a PNG
+function downloadChart() {
+    const canvas = document.getElementById('myChart');
+    const chartTitle = document.getElementById('graphTitle').textContent.trim(); // Get the graph title from the HTML
+    const image = canvas.toDataURL('image/png'); // Convert to PNG image
+    const link = document.createElement('a'); // Create a download link
+    link.href = image;
+    link.download = `${chartTitle}.png`; // File name
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
 // Call the setupGraph function when the page loads
 window.onload = function() {
     // Set the graph title
@@ -151,4 +164,6 @@ window.onload = function() {
     }
     // Proceed to set up the graph
     setupGraph();
+    // Event listener for PNG download
+    document.getElementById('downloadChart').addEventListener('click', downloadChart);
 };
