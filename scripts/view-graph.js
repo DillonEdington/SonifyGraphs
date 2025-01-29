@@ -102,7 +102,7 @@ function setupGraph() {
 function createChart(type, labels, values) {
     const ctx = document.getElementById('myChart').getContext('2d');
 
-    // Configuration for Line and Bar charts
+    // Configuration for Line and Bar charts    
     const chartConfig = {
         type: type.toLowerCase(),
         data: {
@@ -140,16 +140,14 @@ function createChart(type, labels, values) {
 }
 
 // Function to download the chart as a PNG
-function downloadChart() {
+function downloadChart() {  
     const canvas = document.getElementById('myChart');
     const chartTitle = document.getElementById('graphTitle').textContent.trim(); // Get the graph title from the HTML
     const image = canvas.toDataURL('image/png'); // Convert to PNG image
     const link = document.createElement('a'); // Create a download link
     link.href = image;
-    link.download = `${chartTitle}.png`; // File name
-    document.body.appendChild(link);
+    link.download = `${chartTitle || 'graph'}.png`; // File name
     link.click();
-    document.body.removeChild(link);
 }
 
 // Call the setupGraph function when the page loads
