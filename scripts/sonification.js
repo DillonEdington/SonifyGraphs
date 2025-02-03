@@ -157,6 +157,60 @@ document.addEventListener('DOMContentLoaded', function() {
         }, totalDuration);
     }
 
+    // Continuous Pitch (Line)
+    function sonifyContinuous(labels, values, startIndex, endIndex, speed) {
+        const rangeValues = values.slice(startIndex, endIndex + 1);
+        const frequencies = rangeValues.map(v => mapValueToFrequency(v));
+
+        if (frequencies.length === 0) {
+            alert('No data points to sonify in the selected range.');
+            return;
+        }
+
+        // Clear old playback if needed
+        stopAndResetPlayback(true);
+
+        // Set BPM
+        Tone.Transport.bpm.value = 120 * speed;
+
+        // Create one oscillator and sync it
+        oscillator = new Tone.Oscillator().toDestination();
+        oscillator.sync();
+        // Set starting frequency before playback begins
+        oscillator.frequency.value = frequencies[0];
+        oscillator.start(0);
+
+        audioObject = oscillator; // for tracking
+
+        // Each "segment" in the data is a quarter note long
+        const noteDuration = Tone.Time('4n').toSeconds();
+        const totalDuration = frequencies.length * noteDuration;
+
+        // Schedule frequency ramps
+        for (let i = 0; i < frequencies.length - 1; i++) {
+            const offset = i * noteDuration;
+            Tone.Transport.schedule((scheduledTime) => {
+                // At segment start
+                oscillator.frequency.setValueAtTime(frequencies[i], scheduledTime);
+                // Linearly ramp to next frequency by segment end
+                oscillator.frequency.linearRampToValueAtTime(
+                    frequencies[i + 1],
+                    scheduledTime + noteDuration
+                );
+            }, offset);
+        }
+
+        // Schedule final stop after last ramp
+        scheduledId = Tone.Transport.scheduleOnce((time) => {
+            stopPlayback(time);
+        }, totalDuration);
+
+        // Start transport
+        Tone.Transport.start();
+        isPlaying = true;
+        isFinished = false;
+    }
+
     // Function to stop playback and reset state
     function stopPlayback(time) {
         if (isPlaying || !isFinished) {
