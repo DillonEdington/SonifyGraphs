@@ -8,22 +8,26 @@ document.addEventListener('DOMContentLoaded', function() {
     const speedRange = document.getElementById('speedRange');
     const speedValue = document.getElementById('speedValue');
 
-    let synth;
-    let sequence;
+    // Track either a Tone.Sequence (discrete notes) or a Tone.Oscillator (continuous sound).
+    let audioObject = null;
+    let oscillator = null;  // for line graphs
+    
+    let synth = null;  // for dicrete playback (bar/scatter)
+
     let isPlaying = false;
     let isFinished = false;
-    let scheduledId = null; // Variable to store the scheduled event ID
+    let scheduledId = null; // ID for final "stop" event scheduling
 
     // Initialize the speed display
     speedValue.textContent = speedRange.value + 'x';
 
-    // Event listener for the play button
+    // Play button
     playButton.addEventListener('click', async function() {
         // Start the AudioContext if not already started
         await Tone.start();
 
-        if (!isPlaying && !isFinished && !sequence) {
-            // Starting new sonification
+        // If we have NOT started any audio yet
+        if (!isPlaying && !isFinished && !audioObject) {
             const startIndex = parseInt(document.getElementById('startIndex').value);
             const endIndex = parseInt(document.getElementById('endIndex').value);
 
@@ -49,25 +53,21 @@ document.addEventListener('DOMContentLoaded', function() {
             resetButton.disabled = false;
             resetButton.setAttribute('aria-disabled', 'false');
 
-            // Create the synth if it doesn't exist
-            if (!synth) {
-                synth = new Tone.Synth().toDestination();
-            }
-
-            // Get the speed value
+            // Start sonification
             const speed = parseFloat(speedRange.value);
-
-            // Call the function to sonify the selected data range
             sonifyData(window.labels, window.values, startIndex, endIndex, speed);
 
+        // If finished, do nothing (play won't re-trigger)
         } else if (isFinished) {
-            // Sonification is finished; disable play button
             playButton.disabled = true;
             playButton.setAttribute('aria-disabled', 'true');
-        } else if (sequence) {
-            // Resume playback
+
+        // Otherwise, must be paused or resumed
+        } else if (audioObject && !isPlaying) {
+            // Resume
             Tone.Transport.start();
             isPlaying = true;
+
             playButton.disabled = true;
             playButton.setAttribute('aria-disabled', 'true');
             pauseButton.disabled = false;
@@ -75,11 +75,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Event listener for the pause button
+    // Pause button
     pauseButton.addEventListener('click', function() {
         if (isPlaying) {
             Tone.Transport.pause();
             isPlaying = false;
+
             playButton.disabled = false;
             playButton.setAttribute('aria-disabled', 'false');
             pauseButton.disabled = true;
@@ -87,103 +88,30 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Event listener for the reset button
+    // Reset button
     resetButton.addEventListener('click', function() {
-        // Stop playback and reset the sequence
-        if (isPlaying || isFinished) {
-            if (Tone.Transport.state !== 'stopped') {
-                Tone.Transport.stop();
-            }
-
-            if (sequence) {
-                sequence.stop();
-                sequence.dispose();
-                sequence = null;
-            }
-
-            // Clear any scheduled events
-            if (scheduledId !== null) {
-                Tone.Transport.clear(scheduledId);
-                scheduledId = null;
-            }
-
-            isPlaying = false;
-            isFinished = false;
-        }
-        // Reset buttons
-        playButton.disabled = false;
-        playButton.setAttribute('aria-disabled', 'false');
-        pauseButton.disabled = true;
-        pauseButton.setAttribute('aria-disabled', 'true');
-        resetButton.disabled = false;
-        resetButton.setAttribute('aria-disabled', 'false');
-
-        // Reset the transport position
-        Tone.Transport.position = 0;
+        stopAndResetPlayback();
     });
 
-    // Event listener for the speed control
+    // Speed slider
     speedRange.addEventListener('input', function() {
         const speed = parseFloat(speedRange.value);
         speedValue.textContent = speed + 'x';
         if (isPlaying) {
-            Tone.Transport.bpm.value = 120 * speed; // Adjust the BPM
+            // Adjust BPM in real time
+            Tone.Transport.bpm.value = 120 * speed;
         }
     });
 
-    // Function to sonify the data within the selected range
+    // Sonify data
     function sonifyData(labels, values, startIndex, endIndex, speed) {
-        // Extract the range of values to sonify
-        const rangeValues = values.slice(startIndex, endIndex + 1);
-
-        // Map data values to frequencies
-        const frequencies = rangeValues.map(value => mapValueToFrequency(value));
-
-        // Check if there are frequencies to play
-        if (frequencies.length === 0) {
-            alert('No data points to sonify in the selected range.');
-            return;
+        const selectedGraph = localStorage.getItem('selectedGraph');
+        // Check if it's a Line graph for continuous sound
+        if (selectedGraph && selectedGraph.toLowerCase() === 'line') {
+            sonifyContinuous(labels, values, startIndex, endIndex, speed);
+        } else {
+            sonifyDiscrete(labels, values, startIndex, endIndex, speed);
         }
-
-        // Stop and dispose of any existing sequence
-        if (sequence) {
-            sequence.stop();
-            sequence.dispose();
-            sequence = null;
-        }
-
-        // Reset the transport
-        Tone.Transport.stop();
-        Tone.Transport.position = 0;
-
-        // Adjust the playback speed
-        Tone.Transport.bpm.value = 120 * speed;
-
-        // Create a sequence
-        sequence = new Tone.Sequence((time, frequency) => {
-            synth.triggerAttackRelease(frequency, '8n', time);
-        }, frequencies, '4n');
-
-        // Set the sequence to play only once
-        sequence.loop = false;
-
-        // Start the sequence
-        sequence.start(0);
-
-        // Start the transport
-        Tone.Transport.start();
-
-        isPlaying = true;
-        isFinished = false;
-
-        // Calculate the total duration
-        const noteDuration = Tone.Time('4n').toSeconds();
-        const totalDuration = frequencies.length * noteDuration;
-
-        // Schedule stopPlayback() after the total duration
-        scheduledId = Tone.Transport.scheduleOnce((time) => {
-            stopPlayback(time);
-        }, totalDuration);
     }
 
     // Function to stop playback and reset state
