@@ -114,6 +114,49 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Discrete Notes (Bar/Scatter)
+    function sonifyDiscrete(labels, values, startIndex, endIndex, speed) {
+        const rangeValues = values.slice(startIndex, endIndex + 1);
+        const frequencies = rangeValues.map(v => mapValueToFrequency(v));
+
+        if (frequencies.length === 0) {
+            alert('No data points to sonify in the selected range.');
+            return;
+        }
+
+        // Clear old playback if needed
+        stopAndResetPlayback(true);
+
+        // Create the synth if needed
+        if (!synth) {
+            synth = new Tone.Synth().toDestination();
+        }
+
+        // Set BPM
+        Tone.Transport.bpm.value = 120 * speed;
+
+        // Create the Tone.Sequence
+        audioObject = new Tone.Sequence((time, freq) => {
+            // Use the callback 'time' for accurate scheduling
+            synth.triggerAttackRelease(freq, '8n', time);
+        }, frequencies, '4n');
+
+        audioObject.loop = false;
+        audioObject.start(0);
+
+        // Start the transport
+        Tone.Transport.start();
+        isPlaying = true;
+        isFinished = false;
+
+        // Schedule final stop
+        const noteDuration = Tone.Time('4n').toSeconds();
+        const totalDuration = frequencies.length * noteDuration;
+        scheduledId = Tone.Transport.scheduleOnce((time) => {
+            stopPlayback(time);
+        }, totalDuration);
+    }
+
     // Function to stop playback and reset state
     function stopPlayback(time) {
         if (isPlaying || !isFinished) {
