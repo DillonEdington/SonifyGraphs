@@ -211,35 +211,36 @@ document.addEventListener('DOMContentLoaded', function() {
         isFinished = false;
     }
 
-    // Function to stop playback and reset state
+    // Playback stopped
     function stopPlayback(time) {
         if (isPlaying || !isFinished) {
             isPlaying = false;
             isFinished = true;
 
-            // Disable the play button since playback is finished
+            // Disable play & pause
             playButton.disabled = true;
             playButton.setAttribute('aria-disabled', 'true');
-
-            // Disable the pause button
             pauseButton.disabled = true;
             pauseButton.setAttribute('aria-disabled', 'true');
 
-            // Enable the reset button
+            // Enable reset
             resetButton.disabled = false;
             resetButton.setAttribute('aria-disabled', 'false');
 
+            // Stop transport
             if (Tone.Transport.state !== 'stopped') {
                 Tone.Transport.stop(time);
             }
 
-            if (sequence) {
-                sequence.stop(time);
-                sequence.dispose();
-                sequence = null;
+            // Dispose audio object
+            if (audioObject) {
+                audioObject.stop(time);
+                audioObject.dispose();
+                audioObject = null;
             }
+            oscillator = null;
 
-            // Clear any scheduled events
+            // Clear final event
             if (scheduledId !== null) {
                 Tone.Transport.clear(scheduledId);
                 scheduledId = null;
@@ -247,19 +248,57 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Function to map data values to frequencies
+    // Manual stop and reset
+    function stopAndResetPlayback(skipButtonReset = false) {
+        // Stop transport
+        if (Tone.Transport.state !== 'stopped') {
+            Tone.Transport.stop();
+        }
+
+        // Dispose audio
+        if (audioObject) {
+            audioObject.stop();
+            audioObject.dispose();
+            audioObject = null;
+        }
+        oscillator = null;
+
+        // Clear final event
+        if (scheduledId !== null) {
+            Tone.Transport.clear(scheduledId);
+            scheduledId = null;
+        }
+
+        // Reset flags
+        isPlaying = false;
+        isFinished = false;
+        Tone.Transport.position = 0;
+
+        // Only reset buttons if skipButtonReset is false
+        if (!skipButtonReset) {
+            playButton.disabled = false;
+            playButton.setAttribute('aria-disabled', 'false');
+            pauseButton.disabled = true;
+            pauseButton.setAttribute('aria-disabled', 'true');
+            resetButton.disabled = false;
+            resetButton.setAttribute('aria-disabled', 'false');
+        }
+    }
+
+    // Map data value to frequency
     function mapValueToFrequency(value) {
-        const minFreq = 200; // Minimum frequency (in Hz)
-        const maxFreq = 800; // Maximum frequency (in Hz)
-        const minValue = Math.min(...window.values); // Minimum data value
+        const minFreq = 200;  // lower bound
+        const maxFreq = 800;  // upper bound
+        const minValue = Math.min(...window.values);
         const maxValue = Math.max(...window.values);
 
-        // Handle the case where all values are the same
+        // If all data are identical, pick the midpoint
         if (minValue === maxValue) {
             return (minFreq + maxFreq) / 2;
         }
 
-        // Normalize the value to a frequency within the specified range
-        return ((value - minValue) / (maxValue - minValue)) * (maxFreq - minFreq) + minFreq;
+        // Scale data value into frequency range
+        return ((value - minValue) / (maxValue - minValue)) *
+               (maxFreq - minFreq) + minFreq;
     }
 });
