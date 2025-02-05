@@ -139,11 +139,12 @@ function createChart(type, labels, values) {
     new Chart(ctx, chartConfig);
 }
 
-// Function to download the chart as a PNG
-function downloadChart() {  
+// Function to download the chart as a (0) PNG or (1) JPEG
+function downloadChart(control) {  
     const canvas = document.getElementById('myChart');
     const chartTitle = document.getElementById('graphTitle').textContent.trim(); // Get the graph title from the HTML
-    const image = canvas.toDataURL('image/png'); // Convert to PNG image
+    if (control) { const image = canvas.toDataURL('image/jpeg', 1.0); } // Convert to JPEG image
+    else const image = canvas.toDataURL('image/png'); // Convert to PNG image
     const link = document.createElement('a'); // Create a download link
     link.href = image;
     link.download = `${chartTitle || 'graph'}.png`; // File name
@@ -162,6 +163,7 @@ window.onload = function() {
     }
     // Proceed to set up the graph
     setupGraph();
-    // Event listener for PNG download
-    document.getElementById('downloadChart').addEventListener('click', downloadChart);
+    // Event listeners for image download
+    document.getElementById('downloadChartPNG').addEventListener('click', downloadChart(0));
+    document.getElementById('downloadChartJPEG').addEventListener('click', downloadChart(1));
 };
