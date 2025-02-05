@@ -139,12 +139,27 @@ function createChart(type, labels, values) {
     new Chart(ctx, chartConfig);
 }
 
-// Function to download the chart as a (0) PNG or (1) JPEG
+// Function to download the chart as a (0) transparent or (1) opaque image
 function downloadChart(control) {  
     const canvas = document.getElementById('myChart');
     const chartTitle = document.getElementById('graphTitle').textContent.trim(); // Get the graph title from the HTML
-    if (control) { const image = canvas.toDataURL('image/jpeg', 1.0); } // Convert to JPEG image
-    else const image = canvas.toDataURL('image/png'); // Convert to PNG image
+    let image;
+    if (control) { // Convert to transparent image
+        const tempCanvas = document.createElement('canvas'); // Create a duplicate canvas
+        tempCanvas.width = canvas.width;
+        tempCanvas.height = canvas.height;
+        const tempCtx = tempCanvas.getContext('2d');
+
+        // Fill background with white
+        tempCtx.fillStyle = 'white';
+        tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height); // fill the duplicate with white
+
+        // Draw the existing chart onto the duplicate canvas
+        tempCtx.drawImage(canvas, 0, 0);
+
+        image = tempCanvas.toDataURL('image/jpeg', 1.0); 
+        } 
+    else image = canvas.toDataURL('image/png'); // Convert to transparent image
     const link = document.createElement('a'); // Create a download link
     link.href = image;
     link.download = `${chartTitle || 'graph'}.png`; // File name
@@ -164,6 +179,6 @@ window.onload = function() {
     // Proceed to set up the graph
     setupGraph();
     // Event listeners for image download
-    document.getElementById('downloadChartPNG').addEventListener('click', downloadChart(0));
-    document.getElementById('downloadChartJPEG').addEventListener('click', downloadChart(1));
+    document.getElementById('downloadChartPNG').addEventListener('click', function(){downloadChart(0)});
+    document.getElementById('downloadChartJPEG').addEventListener('click', function(){downloadChart(1)});
 };
