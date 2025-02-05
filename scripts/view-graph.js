@@ -139,6 +139,34 @@ function createChart(type, labels, values) {
     new Chart(ctx, chartConfig);
 }
 
+// Function to download the chart as a (0) transparent or (1) opaque image
+function downloadChart(control) {
+    const canvas = document.getElementById('myChart');
+    const chartTitle = document.getElementById('graphTitle').textContent.trim(); // Get the graph title from the HTML
+    let image;
+    if (control) { // Convert to transparent image
+        const tempCanvas = document.createElement('canvas'); // Create a duplicate canvas
+        tempCanvas.width = canvas.width;
+        tempCanvas.height = canvas.height;
+        const tempCtx = tempCanvas.getContext('2d');
+
+        // Fill background with white
+        tempCtx.fillStyle = 'white';
+        tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height); // fill the duplicate with white
+
+        // Draw the existing chart onto the duplicate canvas
+        tempCtx.drawImage(canvas, 0, 0);
+
+        image = tempCanvas.toDataURL('image/jpeg', 1.0);
+    }
+    else image = canvas.toDataURL('image/png'); // Convert to transparent image
+    const link = document.createElement('a'); // Create a download link
+    link.href = image;
+    link.download = `${chartTitle || 'graph'}.png`; // File name
+    link.click();
+}
+
+
 // Call the setupGraph function when the page loads
 window.onload = function() {
     // Set the graph title
