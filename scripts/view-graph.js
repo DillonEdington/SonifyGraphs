@@ -9,7 +9,7 @@ window.yAxisLabel = 'Y-axis';
 
 // Function to parse CSV data into labels and values arrays
 function parseCSV(data) {
-    const rows = data.trim().split('\n'); // Split data into rows
+    const rows = data.trim().split('\n');
     window.labels = [];
     window.values = [];
 
@@ -55,6 +55,49 @@ function parseCSV(data) {
     return { labels: window.labels, values: window.values };
 }
 
+// Main function to set up the graph on page load
+function setupGraph() {
+    try {
+        const selectedGraph = localStorage.getItem('selectedGraph');
+        if (!selectedGraph) {
+            throw new Error("No graph type selected.");
+        }
+
+        // Check for data in the order of priority: manualData first, then uploadedCSV
+        let dataSource = '';
+
+        const manualData = localStorage.getItem('manualData');
+        const uploadedCSV = localStorage.getItem('uploadedCSV');
+
+        if (manualData) {
+            dataSource = 'manualData';
+            const data = JSON.parse(manualData);
+            window.labels = data.labels;
+            window.values = data.values;
+            // Default axis labels
+            window.xAxisLabel = 'X-axis';
+            window.yAxisLabel = 'Y-axis';
+        } else if (uploadedCSV) {
+            dataSource = 'uploadedCSV';
+            parseCSV(uploadedCSV);
+        } else {
+            throw new Error("No data available to display.");
+        }
+
+        if (window.labels.length < 2) {
+            throw new Error("Insufficient data to create a graph.");
+        }
+
+        // Create the chart with the selected graph type and data
+        createChart(selectedGraph, window.labels, window.values);
+    } catch (error) {
+        alert(error.message);
+        console.error(error);
+        // Redirect back to the upload page if there's an error
+        window.location.href = 'upload.html';
+    }
+}
+
 // Function to create and render the chart
 function createChart(type, labels, values) {
     const ctx = document.getElementById('myChart').getContext('2d');
@@ -67,8 +110,8 @@ function createChart(type, labels, values) {
             datasets: [{
                 label: window.yAxisLabel,
                 data: values,
-                backgroundColor: type === 'Bar' ? 'rgba(75, 192, 192, 0.2)' : 'rgba(255, 99, 132, 0.2)',
-                borderColor: type === 'Bar' ? 'rgba(75, 192, 192, 1)' : 'rgba(255, 99, 132, 1)',
+                backgroundColor: type.toLowerCase() === 'bar' ? 'rgba(75, 192, 192, 0.5)' : 'rgba(255, 99, 132, 0.5)',
+                borderColor: type.toLowerCase() === 'bar' ? 'rgba(75, 192, 192, 1)' : 'rgba(255, 99, 132, 1)',
                 borderWidth: 1,
                 fill: false
             }]
@@ -96,45 +139,18 @@ function createChart(type, labels, values) {
     new Chart(ctx, chartConfig);
 }
 
-// Main function to set up the graph on page load
-function setupGraph() {
-    try {
-        const selectedGraph = localStorage.getItem('selectedGraph');
-        if (!selectedGraph) {
-            throw new Error("No graph type selected.");
-        }
-
-        const manualData = localStorage.getItem('manualData');
-        if (manualData) {
-            // Use manually entered data
-            const data = JSON.parse(manualData);
-            window.labels = data.labels;
-            window.values = data.values;
-            // Default axis labels
-            window.xAxisLabel = 'X-axis';
-            window.yAxisLabel = 'Y-axis';
-        } else {
-            // Use uploaded CSV data
-            const csvData = localStorage.getItem('uploadedCSV');
-            if (!csvData) {
-                throw new Error("No CSV data uploaded.");
-            }
-            parseCSV(csvData);
-        }
-
-        if (window.labels.length < 2) {
-            throw new Error("Insufficient data to create a graph.");
-        }
-
-        // Create the chart with the selected graph type and data
-        createChart(selectedGraph, window.labels, window.values);
-    } catch (error) {
-        alert(error.message);
-        console.error(error);
-        // Redirect back to the upload page if there's an error
-        window.location.href = 'upload.html';
-    }
-}
-
 // Call the setupGraph function when the page loads
-window.onload = setupGraph;
+window.onload = function() {
+    // Set the graph title
+    const graphTitleElement = document.getElementById('graphTitle');
+    const graphName = localStorage.getItem('graphName');
+    if (graphName) {
+        graphTitleElement.textContent = graphName;
+    } else {
+        graphTitleElement.textContent = 'Your Graph';
+    }
+    // Proceed to set up the graph
+    setupGraph();
+    //st end index to maximum value of current graph
+    document.getElementById('endIndex').value= window.values.length-1;
+};

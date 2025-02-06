@@ -2,53 +2,72 @@
 'use strict';
 
 document.addEventListener('DOMContentLoaded', function() {
-    const dataTable = document.getElementById('dataTable').getElementsByTagName('tbody')[0];
-    const addRowButton = document.getElementById('add-row');
-    const deleteRowButton = document.getElementById('delete-row');
-    const continueButton = document.getElementById('continueButton');
+    const dataForm = document.getElementById('dataForm');
+    const dataRows = document.getElementById('dataRows');
+    const addRowButton = document.getElementById('addRowButton');
+    const deleteRowButton = document.getElementById('deleteRowButton');
 
-    // Function to add a new row to the data table
-    function addRow() {
-        const newRow = dataTable.insertRow();
-        const labelCell = newRow.insertCell(0);
-        const valueCell = newRow.insertCell(1);
+    let rowIndex = 0;
 
-        // Create input elements for label and value
+    // Function to add a new data row
+    function addDataRow() {
+        rowIndex++;
+        const dataRow = document.createElement('div');
+        dataRow.className = 'data-row';
+
+        // Label Input
+        const labelLabel = document.createElement('label');
+        labelLabel.setAttribute('for', `labelInput${rowIndex}`);
+        labelLabel.textContent = 'Label';
         const labelInput = document.createElement('input');
         labelInput.type = 'text';
-        labelInput.setAttribute('aria-label', 'Data label');
+        labelInput.id = `labelInput${rowIndex}`;
+        labelInput.name = `labelInput${rowIndex}`;
         labelInput.required = true;
 
+        // Value Input
+        const valueLabel = document.createElement('label');
+        valueLabel.setAttribute('for', `valueInput${rowIndex}`);
+        valueLabel.textContent = 'Value';
         const valueInput = document.createElement('input');
         valueInput.type = 'number';
-        valueInput.setAttribute('aria-label', 'Data value');
+        valueInput.id = `valueInput${rowIndex}`;
+        valueInput.name = `valueInput${rowIndex}`;
         valueInput.required = true;
 
-        // Append inputs to the table cells
-        labelCell.appendChild(labelInput);
-        valueCell.appendChild(valueInput);
+        // Append inputs to data row
+        dataRow.appendChild(labelLabel);
+        dataRow.appendChild(labelInput);
+        dataRow.appendChild(valueLabel);
+        dataRow.appendChild(valueInput);
+
+        // Append data row to form
+        dataRows.appendChild(dataRow);
     }
 
-    // Function to delete the last row from the data table
-    function deleteRow() {
-        if (dataTable.rows.length > 0) {
-            dataTable.deleteRow(-1); // Delete the last row
+    // Function to delete the last data row
+    function deleteDataRow() {
+        if (dataRows.lastElementChild) {
+            dataRows.removeChild(dataRows.lastElementChild);
+            rowIndex--;
         }
     }
 
-    // Function to collect data from the table and store it
-    function collectData() {
+    // Event listeners
+    addRowButton.addEventListener('click', addDataRow);
+    deleteRowButton.addEventListener('click', deleteDataRow);
+
+    dataForm.addEventListener('submit', function(event) {
+        event.preventDefault();
         const labels = [];
         const values = [];
         let valid = true;
 
-        // Iterate over each row to collect data
-        for (let row of dataTable.rows) {
-            const labelInput = row.cells[0].firstChild;
-            const valueInput = row.cells[1].firstChild;
+        for (let i = 1; i <= rowIndex; i++) {
+            const labelInput = document.getElementById(`labelInput${i}`);
+            const valueInput = document.getElementById(`valueInput${i}`);
 
-            // Check if inputs are filled and valid
-            if (!labelInput.value || isNaN(valueInput.value)) {
+            if (!labelInput.value.trim() || isNaN(valueInput.value)) {
                 valid = false;
                 break;
             }
@@ -59,43 +78,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (!valid || labels.length === 0) {
             alert('Please fill out all fields correctly.');
-            return null;
+            return;
         }
 
-        return { labels, values };
-    }
+        // **Clear uploadedCSV from localStorage**
+        localStorage.removeItem('uploadedCSV');
 
-    // Event listeners for the add and delete row buttons
-    addRowButton.addEventListener('click', addRow);
-    addRowButton.addEventListener('keydown', function(event) {
-        if (event.key === 'Enter' || event.key === ' ') {
-            addRow();
-        }
+        // Store data in localStorage
+        localStorage.setItem('manualData', JSON.stringify({ labels, values }));
+        window.location.href = 'graph-selection.html';
     });
 
-    deleteRowButton.addEventListener('click', deleteRow);
-    deleteRowButton.addEventListener('keydown', function(event) {
-        if (event.key === 'Enter' || event.key === ' ') {
-            deleteRow();
-        }
-    });
-
-    // Event listener for the continue button
-    continueButton.addEventListener('click', function() {
-        const data = collectData();
-        if (data) {
-            // Store data in localStorage to be used on the next page
-            localStorage.setItem('manualData', JSON.stringify(data));
-            window.location.href = 'graph-selection.html';
-        }
-    });
-
-    continueButton.addEventListener('keydown', function(event) {
-        if (event.key === 'Enter' || event.key === ' ') {
-            continueButton.click();
-        }
-    });
-
-    // Initialize the table with one row by default
-    addRow();
+    // Initialize with one data row
+    addDataRow();
 });
