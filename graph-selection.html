@@ -1,42 +1,78 @@
+<!-- graph-selection.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Graph Selection</title>
-    <!-- Link to global and page-specific styles -->
-    <link rel="stylesheet" href="styles/global.css">
-    <link rel="stylesheet" href="styles/graph-selection.css">
+  <title>Graph Select</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Link to Template Stylesheets -->
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+    .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+    .fa-anchor,.fa-coffee {font-size:200px}
+  </style>
 </head>
 <body>
-    <main>
-        <div class="container">
-            <!-- Form for selecting the graph type -->
-            <div class = "colored-box1">
-            <h1 class = "heading">Select Graph Type</h1>
-            <form id="graph-selection-form">
-                <div class="graph-option">
-                    <input type="radio" id="lineGraph" name="graphType" value="Line">
-                    <label for="lineGraph">Line Graph</label>
-                </div>
-                <div class="graph-option">
-                    <input type="radio" id="barGraph" name="graphType" value="Bar">
-                    <label for="barGraph">Bar Graph</label>
-                </div>
-                <div class="graph-option">
-                    <input type="radio" id="scatterPlot" name="graphType" value="Scatter">
-                    <label for="scatterPlot">Scatter Plot</label>
-                </div>
-                <!-- Confirm button to submit the form -->
-                <button type="submit" class="button1" style = "left:445px; bottom:-85px">Confirm</button>
-            </form>
-            </div>
-            <!-- Navigation button to return to the start page -->
-            <div class="navigation">
-                <a href="index.html" class="button2" style ="right:412px; bottom:40px;">Return to Start</a>
-            </div>
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-cyan w3-card w3-left-align w3-large">
+    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="index.html" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
+    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Settings</a>
+
+  </div>
+
+  <!-- Navbar on small screens -->
+  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+    <a href="index.html" class="w3-bar-item w3-button w3-padding-large">Link 1</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 2</a>
+  </div>
+</div>
+
+<!-- Header -->
+<main>
+  <header class="w3-container w3-cyan w3-center" style="padding:128px 16px">
+    <h1 class="w3-margin w3-xxlarge" >Select Graph Type</h1>
+    <div class="form-container">
+      <form id="graph-selection-form">
+        <div class = "graph-options">
+          <div class = "w3-input w3-large" style = "border-bottom:0px">
+            <input type = "radio" id = "line" name="graphType" value="Line">
+            <label for="lineGraph">Line Graph</label>
+            <br><br>
+            <input type = "radio" id = "bar" name="graphType" value="Bar">
+            <label for="barGraph">Bar Graph</label>
+            <br><br>
+            <input type = "radio" id = "scatterplot" name="graphType" value="Scatter">
+            <label for="scatterPlot">Scatter Plot</label>
+          </div>
+          <br>
+          <!-- Optional Graph Name Input -->
+          <div class="w3-input w3-large" style = "border-bottom:0px">
+            <label for="graphName">Graph Name (Optional):</label>
+            <input type="text" id="graphName" name="graphName" placeholder="Enter graph name">
+          </div>
         </div>
-    </main>
-    <!-- Include the script for this page -->
-    <script src="scripts/graph-selection.js"></script>
+        <br>
+          <!-- Confirm button -->
+          <button id = "submit" type="submit" class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Confirm</button>
+      </form>
+    </div>
+  </header>
+</main>
+
+<!-- Footer -->
+<footer class="w3-container w3-padding-32 w3-center w3-opacity">  
+ <p>Created by Team 2: Sonify for Graphs <br> Template from W3.CSS</p>
+</footer>
+  <!-- Include page-specific script -->
+  <script src="scripts/graph-selection.js" defer></script>
+  <!-- Include global script -->
+  <script src="scripts/main.js" defer></script>
 </body>
 </html>
