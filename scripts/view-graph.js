@@ -136,7 +136,7 @@ function createChart(type, labels, values) {
     };
 
     // Create and render the chart
-    new Chart(ctx, chartConfig);
+    window.myChart = new Chart(ctx, chartConfig);
 }
 
 // Function to download the chart as a (0) transparent or (1) opaque image

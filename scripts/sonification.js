@@ -18,20 +18,24 @@ document.addEventListener('DOMContentLoaded', function() {
     let isFinished = false;
     let scheduledId = null; // ID for final "stop" event scheduling
 
+    let animationPaused = false;
+    let animationIndex = 0; // Track where the animation left off
+    let originalColors = []; //Tracks original colors for the highlight animations
+    let animationTimeout; //tracks timeout for animation
+    let chartReference; //references for chart and indices to change color
+    let startIndexRef, endIndexRef
+
     // Initialize the speed display
     speedValue.textContent = speedRange.value + 'x';
 
     // Play button
-    playButton.addEventListener('click', async function() {
-        // Start the AudioContext if not already started
+    playButton.addEventListener('click', async function () {
         await Tone.start();
-
-        // If we have NOT started any audio yet
+    
         if (!isPlaying && !isFinished && !audioObject) {
             const startIndex = parseInt(document.getElementById('startIndex').value);
             const endIndex = parseInt(document.getElementById('endIndex').value);
-
-            // Validate the indices
+    
             if (
                 isNaN(startIndex) ||
                 isNaN(endIndex) ||
@@ -40,53 +44,67 @@ document.addEventListener('DOMContentLoaded', function() {
                 endIndex >= window.values.length
             ) {
                 alert(`Please enter valid start and end indices between 0 and ${window.values.length - 1}.`);
-                //edit input data to fit within valid parameters
-                document.getElementById('endIndex').value= window.values.length-1;
+                document.getElementById('endIndex').value = window.values.length - 1;
                 return;
             }
-
-            // Disable the play button and enable the pause button
+    
+            // Enable buttons
             playButton.disabled = true;
-            playButton.setAttribute('aria-disabled', 'true');
             pauseButton.disabled = false;
-            pauseButton.setAttribute('aria-disabled', 'false');
             resetButton.disabled = false;
-            resetButton.setAttribute('aria-disabled', 'false');
-
-            // Start sonification
+    
             const speed = parseFloat(speedRange.value);
             sonifyData(window.labels, window.values, startIndex, endIndex, speed);
-
-        // If finished, do nothing (play won't re-trigger)
+            
+            animationPaused = false;
+            originalColors = []; // Reset colors
+            animationIndex = startIndex;
+            visualIndicator(myChart, startIndex, endIndex, speed);
+    
         } else if (isFinished) {
             playButton.disabled = true;
-            playButton.setAttribute('aria-disabled', 'true');
-
-        // Otherwise, must be paused or resumed
+    
         } else if (audioObject && !isPlaying) {
-            // Resume
+            // Resume audio
             Tone.Transport.start();
             isPlaying = true;
-
+    
             playButton.disabled = true;
-            playButton.setAttribute('aria-disabled', 'true');
             pauseButton.disabled = false;
-            pauseButton.setAttribute('aria-disabled', 'false');
+    
+            // Resume animation
+            animationPaused = false;
+    
+            // Restore the last highlighted bar before continuing
+            if (animationIndex > 0) {
+                myChart.data.datasets[0].backgroundColor[animationIndex - 1] = originalColors[animationIndex - 1];
+            }
+    
+            myChart.update();
+            highlightNextBar(); // Resume animation for coloring successive bars
         }
     });
+    
+    
+    
+    
 
     // Pause button
-    pauseButton.addEventListener('click', function() {
+    pauseButton.addEventListener('click', function () {
         if (isPlaying) {
             Tone.Transport.pause();
             isPlaying = false;
-
+            
             playButton.disabled = false;
-            playButton.setAttribute('aria-disabled', 'false');
             pauseButton.disabled = true;
-            pauseButton.setAttribute('aria-disabled', 'true');
+    
+            animationPaused = true; // Stop animation at current index
+
+            clearTimeout(animationTimeout); //clears the color
         }
     });
+    
+    
 
     // Reset button
     resetButton.addEventListener('click', function() {
@@ -102,6 +120,62 @@ document.addEventListener('DOMContentLoaded', function() {
             Tone.Transport.bpm.value = 120 * speed;
         }
     });
+    
+
+function  visualIndicator(chart, startIndex, endIndex, speed) { //Visual indication of what indices are being sonified. Changes color of each bar to blue and then back.
+    chartReference = chart;
+    startIndexRef = startIndex;
+    endIndexRef = endIndex;
+
+    const dataset = chart.data.datasets[0];
+
+    // Ensure backgroundColor is an array
+    if (!Array.isArray(dataset.backgroundColor)) {
+        dataset.backgroundColor = new Array(chart.data.labels.length).fill(dataset.backgroundColor);
+    }
+
+    // Store the original colors once at the start
+    if (originalColors.length === 0) {
+        originalColors = [...dataset.backgroundColor];
+    }
+
+    if (animationIndex === 0 || animationIndex < startIndex) {
+        animationIndex = startIndex; // Reset animation index only if it's not resuming
+    }
+
+    animationPaused = false;
+
+    highlightNextBar();
+}
+function highlightNextBar() {
+        if (animationPaused) return; // Stop execution if paused
+    
+        const dataset = chartReference.data.datasets[0];
+    
+        // If the animation is finished, restore the final bar's color and stop
+        if (animationIndex > endIndexRef) {
+            dataset.backgroundColor[endIndexRef] = originalColors[endIndexRef]; // Reset final bar color
+            chartReference.update();
+            return;
+        }
+    
+        if (animationIndex > startIndexRef) {
+            dataset.backgroundColor[animationIndex - 1] = originalColors[animationIndex - 1];
+        }
+    
+        // Highlight the current bar
+        dataset.backgroundColor[animationIndex] = 'rgba(0, 0, 255, 1)';
+    
+        chartReference.update();
+    
+        animationIndex++; // Move to the next bar
+    
+        const noteDuration = Tone.Time('4n').toMilliseconds();
+        animationTimeout = setTimeout(highlightNextBar, noteDuration);
+    }
+
+
+
 
     // Sonify data
     function sonifyData(labels, values, startIndex, endIndex, speed) {
@@ -254,7 +328,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (Tone.Transport.state !== 'stopped') {
             Tone.Transport.stop();
         }
-
+    
         // Dispose audio
         if (audioObject) {
             audioObject.stop();
@@ -262,18 +336,34 @@ document.addEventListener('DOMContentLoaded', function() {
             audioObject = null;
         }
         oscillator = null;
-
+    
         // Clear final event
         if (scheduledId !== null) {
             Tone.Transport.clear(scheduledId);
             scheduledId = null;
         }
-
+    
+        animationPaused = false;
+        clearTimeout(animationTimeout); // Stop any pending highlight timeouts
+    
+        // Reset graph colors if chart exists
+        if (chartReference) {
+            const dataset = chartReference.data.datasets[0];
+            if (originalColors.length > 0) {
+                dataset.backgroundColor = [...originalColors]; // Restore all bars to original color
+            }
+            chartReference.update();
+        }
+    
+        // Reset visualIndicator
+        animationIndex = 0;
+        originalColors = [];
+    
         // Reset flags
         isPlaying = false;
         isFinished = false;
         Tone.Transport.position = 0;
-
+    
         // Only reset buttons if skipButtonReset is false
         if (!skipButtonReset) {
             playButton.disabled = false;
@@ -284,7 +374,7 @@ document.addEventListener('DOMContentLoaded', function() {
             resetButton.setAttribute('aria-disabled', 'false');
         }
     }
-
+    
     // Map data value to frequency
     function mapValueToFrequency(value) {
         const minFreq = 200;  // lower bound
