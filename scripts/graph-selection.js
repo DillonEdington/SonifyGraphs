@@ -3,10 +3,12 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('graph-selection-form');
+    const submitButton = document.getElementById('submitButton');
 
     // Handle form submission
     form.addEventListener('submit', function(event) {
         event.preventDefault();
+
         // Get the selected graph type
         const selectedGraph = document.querySelector('input[name="graphType"]:checked');
         if (!selectedGraph) {

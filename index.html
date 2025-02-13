@@ -2,63 +2,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Graph Sonification Tool</title>
-    <!-- Link to global styles -->
-    <link rel="stylesheet" href="styles/global.css">
-    <link rel="stylesheet" href="styles/index.css">
+<title>Index</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!--Links to stylesheets used by template!-->
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+  body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+  .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+  .fa-anchor,.fa-coffee {font-size:200px}
+</style>
 </head>
 <body>
-    <!-- Header Component -->
-    <header class="main-header">
-        <div class="header-content">
-            <div class="logo">
-                <a href="index.html">
-                    <img src="assets/logo.png" alt="Project Logo">
-                </a>
-            </div>
-            <nav class="header-nav">
-                <button id="infoButton" class="icon-button" aria-label="Information" aria-haspopup="dialog" aria-controls="infoModal">
-                    <img src="assets/info-icon.png" alt="">
-                </button>
-                <button id="settingsButton" class="icon-button" aria-label="Settings" aria-haspopup="dialog" aria-controls="settingsModal">
-                    <img src="assets/settings-icon.png" alt="">
-                </button>
-            </nav>
-        </div>
-    </header>
 
-    <!-- Info Modal -->
-    <div id="infoModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="infoModalTitle" tabindex="-1" hidden>
-        <div class="modal-content">
-            <h2 id="infoModalTitle">Information</h2>
-            <p>This application helps you convert graphical data into audible sounds, making data accessible for visually impaired users.</p>
-            <button class="close-button" data-close="infoModal">Close</button>
-        </div>
+  
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-cyan w3-card w3-left-align w3-large">
+    <a href="index.html" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
+    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Settings</a>
+    <a href="#" id = "openModal" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Information</a>
+  </div>
+  <!--Modal Functions-->
+  <div id="infoModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="infoModalTitle" tabindex="-1" hidden>
+    <div class="modal-content">
+      <button id="infoButton" class="icon-button" aria-label="Information" aria-haspopup="dialog" aria-controls="infoModal">
+        <img src="assets/info-icon.png" alt="">
+      </button>
+        <h2 id="infoModalTitle">Information</h2>
+        <p>This application helps you convert graphical data into audible sounds, making data accessible for visually impaired users.</p>
+        <button class="close-button" data-close="infoModal">Close</button>
     </div>
+  </div> 
 
-    <!-- Settings Modal -->
-    <div id="settingsModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="settingsModalTitle" tabindex="-1" hidden>
-        <div class="modal-content">
-            <h2 id="settingsModalTitle">Settings</h2>
-            <!-- Settings content goes here -->
-            <button class="close-button" data-close="settingsModal">Close</button>
-        </div>
-    </div>
+  <!-- Navbar on small screens -->
+  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+    <a href="index.html" class="w3-bar-item w3-button w3-padding-large">Link 1</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 2</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 3</a>
 
-    <main>
-        <div class="colored-box1">
-            <div class="text">
-                <h1 class="heading">Welcome to Graph Sonification!</h1>
-            </div>
-            <div class="button-container">
-                <a href="upload.html" class="button1">Upload Data</a>
-                <a href="enter-data.html" class="button1">Enter Data</a>
-            </div>
-        </div>
-    </main>
+  </div>
+</div>
 
-    <!-- Include global scripts -->
-    <script src="scripts/main.js" defer></script>
+<!-- Header -->
+<div class="w3-container w3-cyan w3-center" style="padding:128px 16px">
+  <h1 class="w3-margin w3-jumbo">Graph Sonificiation</h1>
+  <p class="w3-xlarge">An accessibility tool for creating graphs and audial representations. </p>
+  <a href="upload.html" class="w3-button w3-black w3-padding-large w3-large w3-margin-top" >Upload Data</a>
+  <a href="enter-data.html"class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Enter Data</a>
+</div>
+
+
+<!-- Footer -->
+<footer class="w3-container w3-padding-32 w3-center w3-opacity">  
+ <p>Created by Team 2: Sonify for Graphs <br> Template from W3.CSS</p>
+</footer>
+
+<!-- Include global scripts-->
+ <script src="scripts/main.js" defer></script>
+
 </body>
 </html>

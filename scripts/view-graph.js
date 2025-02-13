@@ -110,7 +110,7 @@ function createChart(type, labels, values) {
             datasets: [{
                 label: window.yAxisLabel,
                 data: values,
-                backgroundColor: type.toLowerCase() === 'bar' ? 'rgba(75, 192, 192, 0.2)' : 'rgba(255, 99, 132, 0.2)',
+                backgroundColor: type.toLowerCase() === 'bar' ? 'rgba(75, 192, 192, 0.5)' : 'rgba(255, 99, 132, 0.5)',
                 borderColor: type.toLowerCase() === 'bar' ? 'rgba(75, 192, 192, 1)' : 'rgba(255, 99, 132, 1)',
                 borderWidth: 1,
                 fill: false
@@ -165,7 +165,6 @@ function downloadChart(control) {
     link.download = `${chartTitle || 'graph'}.png`; // File name
     link.click();
 }
-
 
 // Call the setupGraph function when the page loads
 window.onload = function() {

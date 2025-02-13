@@ -41,6 +41,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.setItem('uploadedCSV', csvData);
                 fileReady = true;
                 uploadButton.disabled = false; // Enable the upload button
+                uploadButton.classList.remove("w3-disabled");
+                uploadButton.removeAttribute("disabled");
+
             };
             reader.readAsText(file);
         }
