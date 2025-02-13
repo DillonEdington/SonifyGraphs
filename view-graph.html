@@ -1,4 +1,6 @@
+
 <!--View Graph-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,76 +19,91 @@
   </style>
 </head>
 <body>
+    <!-- Header Component -->
+    <header class="main-header">
+        <div class="header-content">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="assets/logo.png" alt="Project Logo">
+                </a>
+            </div>
+            <nav class="header-nav">
+                <button id="infoButton" class="icon-button" aria-label="Information" aria-haspopup="dialog" aria-controls="infoModal">
+                    <img src="assets/info-icon.png" alt="">
+                </button>
+                <button id="settingsButton" class="icon-button" aria-label="Settings" aria-haspopup="dialog" aria-controls="settingsModal">
+                    <img src="assets/settings-icon.png" alt="">
+                </button>
+            </nav>
+        </div>
+    </header>
 
-<!-- Navbar -->
-<div class="w3-top">
-  <div class="w3-bar w3-cyan w3-card w3-left-align w3-large">
-    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-    <a href="index.html" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Settings</a>
-
-  </div>
-
-  <!-- Navbar on small screens -->
-  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
-    <a href="index.html" class="w3-bar-item w3-button w3-padding-large">Link 1</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 2</a>
-  </div>
-</div>
-
-<!-- Header -->
-<header class="w3-container w3-cyan w3-center" style="padding: 50px 8px">
-  <h1 class="w3-margin w3-xxlarge" id="graphTitle">Your Graph</h1>
-  
-  <div class="w3-card " style="background-color:rgba(255, 255, 255, .85); width:50%; margin:auto; padding:2%;">
-    <!-- Canvas element where the chart will be rendered -->
-    <canvas id="myChart" aria-label="Graph representing your data" role="img"></canvas>
-  </div>
-  <br>
-  <!-- Sonification Controls -->
-  <div class="sonification-controls">
-    <div class="range-selection">
-        <label for="startIndex">Start Index:</label>
-        <input type="number" id="startIndex"style="width:5%;"  min="0" value="0" aria-label="Start Index">
-
-        <label for="endIndex">End Index:</label>
-        <input type="number" style="width:5%;"id="endIndex" min="1" value="10" aria-label="End Index">
-    </div>
-    <div class="playback-controls">
-        <!-- Buttons and controls for sonification -->
-        <br>
-        <button id="playButton" class="w3-button w3-black" style="margin:auto;" aria-label="Play Sonification">Play</button>
-        <button id="pauseButton" class="w3-button w3-black" style="margin:auto;" aria-label="Pause Sonification" disabled>Pause</button>
-        <button id="resetButton" class="w3-button w3-black" style="margin:auto;" aria-label="Reset Sonification">Reset</button>
-        <!-- Speed control slider -->
-        <div class="speed-control" style="position:relative; left:15%; bottom:30px;">
-            <label for="speedRange" style="position:relative; bottom:4px;">Speed:</label>
-            <input  type="range" id="speedRange" min="0.5" max="10" value="1" step="0.1" aria-valuemin="0.5" aria-valuemax="10" aria-valuenow="1" aria-label="Playback Speed">
-            <span id="speedValue" style="position:relative; bottom:4px;">1x</span>
+    <!-- Info Modal -->
+    <div id="infoModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="infoModalTitle" tabindex="-1" hidden>
+        <div class="modal-content">
+            <h2 id="infoModalTitle">Information</h2>
+            <p>This application helps you convert graphical data into audible sounds, making data accessible for visually impaired users.</p>
+            <button class="close-button" data-close="infoModal">Close</button>
         </div>
     </div>
-  </div>
 
-  <a href="index.html" class="w3-button w3-black" style="position:relative; right:325px; bottom:61px;">New Graph</a>
-</header>
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="settingsModalTitle" tabindex="-1" hidden>
+        <div class="modal-content">
+            <h2 id="settingsModalTitle">Settings</h2>
+            <!-- Settings content goes here -->
+            <button class="close-button" data-close="settingsModal">Close</button>
+        </div>
+    </div>
 
+    <main>
+        <div class="colored-box1">
+            <h1 class="heading" id="graphTitle">Your Graph</h1>
+            <div class="colored-box2">
+                <div class="chart-container">
+                    <!-- Canvas element where the chart will be rendered -->
+                    <canvas id="myChart" aria-label="Graph representing your data" role="img"></canvas>
+                </div>
+            </div>
+            <!-- Sonification Controls -->
+            <div class="sonification-controls">
+                <div class="range-selection">
+                    <label for="startIndex">Start Index:</label>
+                    <input type="number" id="startIndex" min="0" value="0" aria-label="Start Index">
 
-<!-- Footer -->
-<footer class="w3-container w3-padding-32 w3-center w3-opacity">  
+                    <label for="endIndex">End Index:</label>
+                    <input type="number" id="endIndex" min="1" value="10" aria-label="End Index">
+                </div>
+                <div class="playback-controls">
+                    <!-- Buttons and controls for sonification -->
+                    <button id="playButton" class="button1" aria-label="Play Sonification">Play</button>
+                    <button id="pauseButton" class="button1" aria-label="Pause Sonification" disabled>Pause</button>
+                    <button id="resetButton" class="button1" aria-label="Reset Sonification">Reset</button>
+                    <!-- Speed control slider -->
+                    <div class="speed-control">
+                        <label for="speedRange">Speed:</label>
+                        <input type="range" id="speedRange" min="0.5" max="10" value="1" step="0.1" aria-valuemin="0.5" aria-valuemax="10" aria-valuenow="1" aria-label="Playback Speed">
+                        <span id="speedValue">1x</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Navigation button to start over -->
+            <a href="index.html" class="button2">New Graph</a>
+            <a id="downloadChartPNG" class="button2">Download Transparent Image</a>
+            <a id="downloadChartJPEG" class="button2">Download Opaque Image</a>
+        </div>
+    </main>
 
- <p>Created by Team 2: Sonify for Graphs <br> Template from W3.CSS</p>
-</footer>
+    <!-- Load external libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Tone.js library -->
+    <script src="https://unpkg.com/tone"></script>
 
-  <!-- Load external libraries -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- Tone.js library -->
-  <script src="https://unpkg.com/tone"></script>
-
-  <!-- Include page-specific scripts -->
-  <script src="scripts/view-graph.js" defer></script>
-  <script src="scripts/sonification.js" defer></script>
-  <!-- Include global script -->
-  <script src="scripts/main.js" defer></script>
+    <!-- Include page-specific scripts -->
+    <script src="scripts/view-graph.js" defer></script>
+    <script src="scripts/sonification.js" defer></script>
+    <!-- Include global script -->
+    <script src="scripts/main.js" defer></script>
 
 </body>
 </html>
