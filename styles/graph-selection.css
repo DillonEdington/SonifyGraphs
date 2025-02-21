@@ -1,5 +1,18 @@
 /* styles/graph-selection.css */
 
+input[type="radio"]:checked+label{
+    background-color: #5C7457!important;
+    color: white !important;
+    border: 0px !important;
+}
+
+label:hover {
+    background-color: #5c745799 !important;
+    color: white !important;
+    border: 0px !important;
+}
+
+
 .form-container {
     display: flex;
     flex-direction: column;
