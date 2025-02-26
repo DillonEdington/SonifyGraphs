@@ -19,12 +19,12 @@
   </style>
 </head>
 <body>
-  
+
 <!-- Navbar -->
 <div class="w3-top">
-    <div class="w3-bar w3-cyan w3-card w3-left-align w3-large">
+  <div class="w3-bar w3-card w3-left-align w3-large" style="background-color:#648DE5;">
       <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-      <a href="index.html" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
+      <a href="index.html" class="w3-bar-item w3-button w3-padding-large">Home</a>
       <button id="infoButton" class="icon-button"  aria-label="Information" aria-haspopup="dialog" aria-controls="infoModal">
         <img src="assets/info-icon.png" alt="">
       </button>
@@ -52,13 +52,37 @@
   </div>
   
   <!-- Header -->
-  <header class="w3-container w3-cyan w3-center" style="padding: 50px 8px">
-    <h1 class="w3-margin w3-xxlarge" id="graphTitle">Your Graph</h1>
-    
-    <div class="w3-card " style="background-color:rgba(255, 255, 255, .85); width:50%; margin:auto; padding:2%;">
+  <div class="w3-container w3-center" style="padding:128px 16px; background-color:#648DE5;">
+  <h1 class="w3-margin w3-xxlarge" id="graphTitle">Your Graph</h1>
+  <!-- Flex containter for slider and graph -->
+  	<div style="display: flex; justify-content: center; align-items: flex-start;">
+    <div class="w3-card " style="background-color:rgba(255, 255, 255, .85); width: 60%; margin-right: 20px; flex-shrink: 0;">
       <!-- Canvas element where the chart will be rendered -->
       <canvas id="myChart" aria-label="Graph representing your data" role="img"></canvas>
     </div>
+	<!-- Slider Customization Settings for Graphs -->
+	<div class="w3-card" style="background-color:rgba(255, 255, 255, .85); width: 15%; padding: 2%; flex-shrink: 0; height: 420px; overflow: auto;">
+	<h3>Customize Graph</h3>
+	<!-- Slider for Zoom -->
+	<div class="slider-container">
+		<label for="zoomSlider">Zoom:</label>
+		<input type="range" id="zoomSlider" min="0.5" max="2" step="0.1" value="1">
+		<span id="zoomLevelValue">Zoom: 1x</label>
+	</div>
+	<!-- Slider for Line Color -->
+	<div class="slider-container">
+		<label for="colorSlider">Outline Color:</label>
+		<input type="range" id="colorSlider" min="0" max="360" value="0">
+		<div id="lineColorPreview" style="width: 50px; height: 20px; margin-top: 5px; border: 1px solid #000;"></div>
+	</div>
+		<!-- Slider for Fill Color -->
+		<div class="slider-container">
+			<label for="fillColorSlider">Fill Color:</label>
+			<input type="range" id="fillColorSlider" min="0" max="360" value="0">
+			<div id="fillColorPreview" style="width: 50px; height: 20px; margin-top: 5px; border: 1px solid #000;"></div>
+		</div>
+	</div>
+</div>
     <br>
     <!-- Sonification Controls -->
     <div class="sonification-controls">
@@ -82,11 +106,12 @@
               <span id="speedValue" style="position:relative; bottom:4px;">1x</span>
           </div>
       </div>
-            <a id="downloadChartPNG" class="w3-button w3-black">Download Transparent Image</a>
-            <a id="downloadChartJPEG" class="w3-button w3-black">Download Opaque Image</a>
+            <a id="downloadChartPNG" class="w3-button" style="background-color: #8B687F; color:white;">Download Transparent Image</a>
+            <a id="downloadChartJPEG" class="w3-button"style="background-color: #8B687F; color:white;">Download Opaque Image</a>
     </div>
-  
-    <a href="index.html" class="w3-button w3-black" style="position:relative; right:325px; bottom:61px;">New Graph</a>
+
+    <a href="index.html" class="w3-button " style="position:relative; right:320px; bottom:100px; background-color: #5c7457; color:white;">New Graph</a>
+    </div>
   </header>
 
 <!-- Footer -->
