@@ -110,8 +110,8 @@ function createChart(type, labels, values) {
             datasets: [{
                 label: window.yAxisLabel,
                 data: values,
-                backgroundColor: type.toLowerCase() === 'bar' ? 'rgba(75, 192, 192, 0.5)' : 'rgba(255, 99, 132, 0.5)',
-                borderColor: type.toLowerCase() === 'bar' ? 'rgba(75, 192, 192, 1)' : 'rgba(255, 99, 132, 1)',
+                backgroundColor: type.toLowerCase() === 'bar' ? 'rgba(139, 104, 127, 0.5)' : 'rgba(92, 116, 87,.5)',
+                borderColor: type.toLowerCase() === 'bar' ? 'rgba(139, 104, 127, 1)' : 'rgba(92, 116, 87,1)',
                 borderWidth: 1,
                 fill: false
             }]

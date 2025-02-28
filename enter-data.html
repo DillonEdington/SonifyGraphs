@@ -22,9 +22,9 @@
 
 <!-- Navbar -->
 <div class="w3-top">
-  <div class="w3-bar w3-cyan w3-card w3-left-align w3-large">
+  <div class="w3-bar w3-card w3-left-align w3-large" style="background-color:#648DE5;">
     <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-    <a href="index.html" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
+    <a href="index.html" class="w3-bar-item w3-button w3-padding-large ">Home</a>
     <button id="infoButton" class="icon-button"  aria-label="Information" aria-haspopup="dialog" aria-controls="infoModal">
           <img src="assets/info-icon.png" alt="">
       </button>
@@ -53,7 +53,7 @@
 </div>
 
 <!-- Header -->
-<header class="w3-container w3-cyan w3-center" style="padding:128px 16px">
+<div class="w3-container w3-center" style="padding:128px 16px; background-color:#648DE5;">
   <h1 class="w3-margin w3-xxlarge">Enter Data Manually</h1>
   <div class="form-container">
     <form id="dataForm">
@@ -61,8 +61,8 @@
         <!-- Data rows added dynamically -->
       </div>
       <div class="button-group">
-        <button type="button" id="addRowButton" class="w3-button w3-blue w3-padding-large w3-medium w3-margin-top">Add Row</button>
-        <button type="button" id="deleteRowButton" class="w3-button w3-red w3-padding-large w3-medium w3-margin-top">Delete Row</button>
+        <button type="button" id="addRowButton" class="w3-button w3-padding-large w3-medium w3-margin-top" style="background-color: rgba(92, 116, 87); color:white;">Add Row</button>
+        <button type="button" id="deleteRowButton" class="w3-button w3-padding-large w3-medium w3-margin-top"style="background-color: rgba(139, 104, 127); color:white;" >Delete Row</button>
     </div>
     <!-- Navigation buttons -->
     <div class="navigation">
@@ -70,6 +70,7 @@
         <button type="submit" id="submitButton" class="w3-button w3-black w3-padding-large w3-large w3-margin-top"style="position:relative; top:50px;">Continue</button>
     </div>
     </form>
+  </div>
   </div>
 </header>
 
