@@ -7,7 +7,16 @@ window.values = [];
 window.xAxisLabel = 'X-axis'; // Default axis labels
 window.yAxisLabel = 'Y-axis';
 
-// Function to parse CSV data into labels and values arrays
+// Global variable for heatmap data
+window.heatmapData = null;
+
+/*
+------------------------------
+CSV Parsing Functions
+------------------------------
+*/
+
+// CSV parser for two-column data (used by Chart.js)
 function parseCSV(data) {
     const rows = data.trim().split('\n');
     window.labels = [];
@@ -55,6 +64,74 @@ function parseCSV(data) {
     return { labels: window.labels, values: window.values };
 }
 
+// CSV parser for heatmap data (expects three columns: x, y, z)
+function parseCSVHeatmap(data) {
+    const rows = data.trim().split('\n');
+    if (rows.length < 2) {
+        throw new Error("CSV data must have at least one data row in addition to the header.");
+    }
+    // Extract the header row
+    const headerRow = rows[0].split(',');
+    if (headerRow.length < 3) {
+        throw new Error("The CSV header must have at least three columns. (e.g., x, y, z)");
+    }
+    // Use header row for default axis labels
+    const xHeader = headerRow[0].trim();
+    const yHeader = headerRow[1].trim();
+    // Use arrays to preserve insertion order
+    let xValues = [];
+    let yValues = [];
+    // Temporary storage for data points
+    const points = [];
+
+    for (let i = 1; i < rows.length; i++) {
+        const cols = rows[i].split(',');
+        if (cols.length < 3) {
+            throw new Error(`Row ${i + 1} does not have three columns.`);
+        }
+        const xVal = cols[0].trim();
+        const yVal = cols[1].trim();
+        const zVal = parseFloat(cols[2].trim());
+
+        if (xVal === "" || yVal === "" || isNaN(zVal)) {
+            throw new Error(`Invalid data at row ${i + 1}.`);
+        }
+        if (!xValues.includes(xVal)) {
+            xValues.push(xVal);
+        }
+        if (!yValues.includes(yVal)) {
+            yValues.push(yVal);
+        }
+        points.push({ x: xVal, y: yVal, z: zVal });
+    }
+
+    // Initialize a 2D matrix for z values with dimensions [yValues.length][xValues.length]
+    const zMatrix = [];
+    for (let i = 0; i < yValues.length; i++) {
+        zMatrix[i] = new Array(xValues.length).fill(null);
+    }
+
+    // Fill the matrix using the data points in the order they were encountered
+    points.forEach(point => {
+        const colIndex = xValues.indexOf(point.x);
+        const rowIndex = yValues.indexOf(point.y);
+        zMatrix[rowIndex][colIndex] = point.z;
+    });
+
+    // Store the parsed data globally for heatmap usage
+    window.heatmapData = { x: xValues, y: yValues, z: zMatrix };
+    // Also set the axis labels from the header
+    window.xAxisLabel = xHeader;
+    window.yAxisLabel = yHeader;
+
+    return window.heatmapData;
+}
+
+/*
+------------------------------
+Graph Setup and Rendering
+------------------------------ 
+*/
 // Main function to set up the graph on page load
 function setupGraph() {
     try {
@@ -63,80 +140,129 @@ function setupGraph() {
             throw new Error("No graph type selected.");
         }
 
-        // Check for data in the order of priority: manualData first, then uploadedCSV
+        // Check for data in order of priority: manualData first, then uploadedCSV
         let dataSource = '';
-
         const manualData = localStorage.getItem('manualData');
         const uploadedCSV = localStorage.getItem('uploadedCSV');
 
-        if (manualData) {
+        if (manualData && selectedGraph.toLowerCase() !== 'heatmap') {
             dataSource = 'manualData';
             const data = JSON.parse(manualData);
             window.labels = data.labels;
             window.values = data.values;
-            // Default axis labels
             window.xAxisLabel = 'X-axis';
             window.yAxisLabel = 'Y-axis';
         } else if (uploadedCSV) {
             dataSource = 'uploadedCSV';
-            parseCSV(uploadedCSV);
+            if (selectedGraph.toLowerCase() === 'heatmap') {
+                parseCSVHeatmap(uploadedCSV);
+            } else {
+                parseCSV(uploadedCSV);
+            }
         } else {
             throw new Error("No data available to display.");
         }
 
-        if (window.labels.length < 2) {
+        if (selectedGraph.toLowerCase() === 'heatmap' && (!window.heatmapData || !window.heatmapData.z.length)) {
+            throw new Error("Insufficient heatmap data.");
+        } else if ((selectedGraph.toLowerCase() !== 'heatmap') && window.labels.length < 2) {
             throw new Error("Insufficient data to create a graph.");
         }
 
-        // Create the chart with the selected graph type and data
         createChart(selectedGraph, window.labels, window.values);
     } catch (error) {
         alert(error.message);
         console.error(error);
-        // Redirect back to the upload page if there's an error
         window.location.href = 'upload.html';
     }
 }
 
 // Function to create and render the chart
 function createChart(type, labels, values) {
-    const ctx = document.getElementById('myChart').getContext('2d');
+    if (type.toLowerCase() === 'heatmap') {
+        // Hide Chart.js canvas and show Plotly div
+        document.getElementById('myChart').style.display = 'none';
+        const plotlyDiv = document.getElementById('myPlotlyChart');
+        plotlyDiv.style.display = 'block';
 
-    // Configuration for Line and Bar charts
-    const chartConfig = {
-        type: type.toLowerCase(),
-        data: {
-            labels: labels,
-            datasets: [{
-                label: window.yAxisLabel,
-                data: values,
+        // For the heatmap, preserve insertion order.
+        // If y-axis values are numeric, reverse the order so that the smallest appears at the bottom.
+        let yAxisTickVals, yAxisTickText, zMatrixToPlot;
+        const areYNumeric = window.heatmapData.y.every(v => !isNaN(parseFloat(v)));
+        if (areYNumeric) {
+            yAxisTickVals = Array.from(Array(window.heatmapData.y.length).keys()).reverse();
+            yAxisTickText = window.heatmapData.y.slice().reverse();
+            zMatrixToPlot = window.heatmapData.z.slice().reverse();
+        } else {
+            yAxisTickVals = Array.from(Array(window.heatmapData.y.length).keys());
+            yAxisTickText = window.heatmapData.y;
+            zMatrixToPlot = window.heatmapData.z;
+        }
+
+        const data = [
+            {
+                z: zMatrixToPlot,
+                x: Array.from(Array(window.heatmapData.x.length).keys()),
+                type: 'heatmap'
+            }
+        ];
+        const layout = {
+            title: localStorage.getItem('graphName') || 'Your Graph',
+            xaxis: {
+                title: window.xAxisLabel,
+                tickvals: Array.from(Array(window.heatmapData.x.length).keys()),
+                ticktext: window.heatmapData.x,
+                range: [-0.5, window.heatmapData.x.length - 0.5],
+                autorange: false
+            },
+            yaxis: {
+                title: window.yAxisLabel,
+                tickvals: yAxisTickVals,
+                ticktext: yAxisTickText,
+                range: [-0.5, window.heatmapData.y.length - 0.5],
+                autorange: false
+            }
+        };
+        Plotly.newPlot('myPlotlyChart', data, layout, {displayModeBar: false});
+    } else {
+       // For other graph types, use Chart.js
+       document.getElementById('myChart').style.display = 'block';
+       document.getElementById('myPlotlyChart').style.display = 'none';
+
+       const ctx = document.getElementById('myChart').getContext('2d');
+       const chartConfig = {
+           type: type.toLowerCase(),
+           data: {
+               labels: labels,
+               datasets: [{
+                   label: window.yAxisLabel,
+                   data: values,
                 backgroundColor: type.toLowerCase() === 'bar' ? 'rgba(139, 104, 127, 0.5)' : 'rgba(92, 116, 87,.5)',
                 borderColor: type.toLowerCase() === 'bar' ? 'rgba(139, 104, 127, 1)' : 'rgba(92, 116, 87,1)',
                 borderWidth: 1,
-                fill: false
-            }]
-        },
-        options: {
-            scales: {
-                x: {
-                    title: {
-                        display: true,
-                        text: window.xAxisLabel
-                    }
-                },
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: window.yAxisLabel
+                    fill: false
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: window.xAxisLabel
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: window.yAxisLabel
+                        }
                     }
                 }
             }
-        }
-    };
-
-    // Create and render the chart
-    window.myChart = new Chart(ctx, chartConfig);
+        };
+        window.myChart = new Chart(ctx, chartConfig);
+    }
 }
 
 // Function to download the chart as a (0) transparent or (1) opaque image
@@ -166,9 +292,7 @@ function downloadChart(control) {
     link.click();
 }
 
-// Call the setupGraph function when the page loads
 window.onload = function() {
-    // Set the graph title
     const graphTitleElement = document.getElementById('graphTitle');
     const graphName = localStorage.getItem('graphName');
     if (graphName) {
@@ -176,13 +300,17 @@ window.onload = function() {
     } else {
         graphTitleElement.textContent = 'Your Graph';
     }
-    // Proceed to set up the graph
     setupGraph();
-
-    //st end index to maximum value of current graph
-    document.getElementById('endIndex').value= window.values.length-1;
-
-    // Event listeners for image download
-    document.getElementById('downloadChartPNG').addEventListener('click', function(){downloadChart(0)});
-    document.getElementById('downloadChartJPEG').addEventListener('click', function(){downloadChart(1)});
+    // Set default indexes to cover the entire graph for all types.
+    const selectedGraph = localStorage.getItem('selectedGraph');
+    if (selectedGraph && selectedGraph.toLowerCase() === 'heatmap') {
+        let totalCells = window.heatmapData.x.length * window.heatmapData.y.length;
+        document.getElementById('startIndex').value = 0;
+        document.getElementById('endIndex').value = totalCells - 1;
+    } else {
+        document.getElementById('startIndex').value = 0;
+        document.getElementById('endIndex').value = window.values.length - 1;
+    }
+    document.getElementById('downloadChartPNG').addEventListener('click', function(){ downloadChart(0); });
+    document.getElementById('downloadChartJPEG').addEventListener('click', function(){ downloadChart(1); });
 };
