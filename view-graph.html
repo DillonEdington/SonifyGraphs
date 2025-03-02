@@ -55,12 +55,37 @@
   <!-- Header -->
   <div class="w3-container w3-center" style="padding:128px 16px; background-color:#648DE5;">
   <h1 class="w3-margin w3-xxlarge" id="graphTitle">Your Graph</h1>
-    <div class="w3-card " style="background-color:rgba(255, 255, 255, .85); width:50%; margin:auto; padding:2%;">
+    <!-- Flex containter for slider and graph -->
+    	<div style="display: flex; justify-content: center; align-items: flex-start;">
+      <div class="w3-card " style="background-color:rgba(255, 255, 255, .85); width: 60%; margin-right: 20px; flex-shrink: 0;">
       <!-- Canvas element where the chart will be rendered -->
       <canvas id="myChart" aria-label="Graph representing your data" role="img"></canvas>
       <!-- Div for Plotly heatmap (hidden by default) -->
       <div id="myPlotlyChart" style="display: none;"></div>
     </div>
+	<!-- Slider Customization Settings for Graphs -->
+	<div class="w3-card" style="background-color:rgba(255, 255, 255, .85); width: 15%; padding: 2%; flex-shrink: 0; height: 420px; overflow: auto;">
+	<h3>Customize Graph</h3>
+	<!-- Slider for Zoom -->
+	<div class="slider-container">
+		<label for="zoomSlider">Zoom:</label>
+		<input type="range" id="zoomSlider" min="0.5" max="2" step="0.1" value="1">
+		<span id="zoomLevelValue">Zoom: 1x</label>
+	</div>
+	<!-- Slider for Line Color -->
+	<div class="slider-container">
+		<label for="colorSlider">Outline Color:</label>
+		<input type="range" id="colorSlider" min="0" max="360" value="0">
+		<div id="lineColorPreview" style="width: 50px; height: 20px; margin-top: 5px; border: 1px solid #000;"></div>
+	</div>
+		<!-- Slider for Fill Color -->
+		<div class="slider-container">
+			<label for="fillColorSlider">Fill Color:</label>
+			<input type="range" id="fillColorSlider" min="0" max="360" value="0">
+			<div id="fillColorPreview" style="width: 50px; height: 20px; margin-top: 5px; border: 1px solid #000;"></div>
+		</div>
+	</div>
+</div>
     <br>
     <!-- Sonification Controls -->
     <div class="sonification-controls">

@@ -240,27 +240,46 @@ function createChart(type, labels, values) {
                 backgroundColor: type.toLowerCase() === 'bar' ? 'rgba(139, 104, 127, 0.5)' : 'rgba(92, 116, 87,.5)',
                 borderColor: type.toLowerCase() === 'bar' ? 'rgba(139, 104, 127, 1)' : 'rgba(92, 116, 87,1)',
                 borderWidth: 1,
-                    fill: false
-                }]
-            },
-            options: {
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: window.xAxisLabel
-                        }
-                    },
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: window.yAxisLabel
-                        }
-                    }
-                }
-            }
-        };
+                // this is to fix the fill on line graph: fill color would take all screen
+   				fill: type.toLowerCase() === 'line' ? false : true
+               }]
+           },
+           options: {
+   			responsive: true,
+               scales: {
+                   x: {
+                       title: {
+                           display: true,
+                           text: window.xAxisLabel,
+   						font: {
+   							size: 14 
+   						}
+   					},
+   					ticks: {
+   						font: {
+   							size: 14
+   						}
+                       }
+                   },
+                   y: {
+                       beginAtZero: true,
+                       title: {
+                           display: true,
+                           text: window.yAxisLabel,
+   						font: {
+   							size: 14
+   						}
+   					},
+   					ticks: {
+   						font: {
+   							size: 14
+   						}				
+                       }
+                   }
+               }
+           }
+       };
+                    
         window.myChart = new Chart(ctx, chartConfig);
     }
 }
@@ -314,3 +333,53 @@ window.onload = function() {
     document.getElementById('downloadChartPNG').addEventListener('click', function(){ downloadChart(0); });
     document.getElementById('downloadChartJPEG').addEventListener('click', function(){ downloadChart(1); });
 };
+
+// this is the event listener for the zoom
+document.getElementById('zoomSlider')?.addEventListener('input', function () {
+	if (window.myChart) {
+		const zoomLevel = parseFloat(this.value);
+		// this is to update charts scale range
+		window.myChart.options.scales.y.min = Math.min(...window.values) * zoomLevel;
+		window.myChart.options.scales.y.max = Math.max(...window.values) * zoomLevel;
+		window.myChart.update();
+		
+		// this is to update zoom level display
+		document.getElementById('zoomLevelValue').textContent = `Zoom: ${zoomLevel}x`;
+	}
+});
+
+// Updates chart color function
+function getColor(hue) {
+	return `hsl(${hue}, 100%, 50%)`;
+}
+
+// Line Color Slider Event Listener
+document.getElementById('colorSlider')?.addEventListener('input', function () {
+	if (window.myChart) {
+		const hue = this.value;
+		const color = getColor(hue);
+		
+		// this is to update charts color
+		window.myChart.data.datasets[0].borderColor = color;
+		window.myChart.update();
+		
+		// this is to update line colors preview
+		document.getElementById('lineColorPreview').style.backgroundColor = color;
+		document.getElementById('lineColorValue').textContent = `Hue: ${hue}°`;
+	}
+});
+
+// This is the fill color slider event listener
+document.getElementById('fillColorSlider')?.addEventListener('input', function () {
+	if (window.myChart) {
+		const hue = this.value;
+		// this is for opacity
+		const color = `hsla(${hue}, 100%, 50%, 0.2)`;
+		
+		window.myChart.data.datasets[0].backgroundColor = color;
+		window.myChart.update();
+		
+		document.getElementById('fillColorPreview').style.backgroundColor = `hsl(${hue}, 100%, 50%)`;
+		document.getElementById('fillColorValue').textContent = `Hue: ${hue}°`;
+	}
+});

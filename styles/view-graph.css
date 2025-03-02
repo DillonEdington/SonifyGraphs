@@ -63,3 +63,28 @@
 .button1:disabled:focus {
     outline: none;
 }
+
+/* Style for slider settings */
+.slider-container {
+	margin-bottom: 20px;
+}
+
+.slider-container label {
+	font-weight: bold;
+	display: block;
+	margin: 10px 0 5px;
+}
+
+.slider-container input[type="range"] {
+	width: 100%;
+}
+
+.slider-container div {
+	display: inline-block;
+	margin-right: 10px;
+}
+
+.slider-container span {
+	font-size: 14px;
+	margin-left: 10px;
+}
