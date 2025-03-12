@@ -1,57 +1,87 @@
 /* styles/graph-selection.css */
 
-input[type="radio"]:checked+label{
-    background-color: #5C7457!important;
-    color: white !important;
-    border: 0px !important;
+/* Global Typography */
+body, h1, h2, h3, h4, h5, h6 {
+    font-family: "Lato", sans-serif;
 }
 
-label:hover {
+.w3-bar, h1, button {
+    font-family: "Montserrat", sans-serif;
+}
+
+/* Skip Link Styles */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: #fff;
+    color: #000;
+    padding: 8px;
+    z-index: 100;
+    transition: top 0.3s;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* Main Container Styling */
+.main-container {
+    padding: 128px 16px;
+    background-color: #648DE5;
+}
+
+/* Radio Buttons */
+.card-input-element {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.card-input-element:checked + .card-input {
+    background-color: #689358 !important;
+    color: white !important;
+    border-color: #000 !important;
+}
+
+/* Card Styling */
+.card-input {
+    background-color: white !important;
+    color: black !important;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: border-color 0.2s, background-color 0.2s, color 0.2s;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+/* Hover Effect */
+.card-input:hover {
     background-color: #5c745799 !important;
     color: white !important;
-    border: 0px !important;
 }
 
+/* Focus for Active Card */
+.card-input-element:focus + .card-input,
+  label:focus-within .card-input {
+    outline: 2px solid #000;
+    outline-offset: 4px;
+}
 
-.form-container {
+/* Row Padding */
+.w3-row-padding {
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: center;
 }
 
-.graph-options {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.graph-option {
-    margin-bottom: 10px;
-}
-
-#graph-selection-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* Style for graph name input */
-.graph-name-input {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.graph-name-input label {
-    margin-bottom: 5px;
-}
-
-.graph-name-input input {
-    width: 100%;
-    max-width: 300px;
-    padding: 8px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
+/* Fieldset Border */
+fieldset {
+    border: 0;
+  }
