@@ -49,43 +49,71 @@
     <a href="index.html" class="w3-bar-item w3-button w3-padding-large">Link 1</a>
     <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 2</a>
   </div>
-</div>
 
-<!-- Header -->
-<main>
-  <div class="w3-container w3-center" style="padding:128px 16px; background-color:#648DE5;">
-    <h1 class="w3-margin w3-xxlarge" >Select Graph Type</h1>
-    <br>
-    <div class="form-container">
-      <form id="graph-selection-form">
-        <div class = "graph-options"style="align-items:center;">
-          <div class="form-check d-flex flex-column gap-2">
-              <input class = "form-check-input " type="radio" id="line" name="graphType" value="Line" style="position:absolute; opacity:0;" >
-              <label class = "btn btn-primary" for="line" style="background-color: white; color:black;">Line Graph</label>
-          
-              <input class = "form-check-input" type="radio" id="bar" name="graphType" value="Bar"style="position:absolute; opacity:0;" >
-              <label class = "btn btn-primary" for="bar" style="background-color: white; color:black;">Bar Graph</label>
-            
-              <input class = "form-check-input" type="radio" id="scatter" name="graphType" id="scatter" value="Scatter" style="position:absolute; opacity:0;">
-              <label class = "btn btn-primary" for="scatter" style="background-color: white; color:black;">Scatter Plot</label>
 
-              <input class = "form-check-input" type="radio" id="heatmap" name="graphType" value="Heatmap" style="position:absolute; opacity:0;">
-              <label class = "btn btn-primary" for="heatmap" style="background-color: white; color:black;">Heatmap</label>
+  <!-- Main Content -->
+  <main id="main-content">
+    <div class="w3-container w3-center" style="padding:128px 16px; background-color:#648DE5;">
+      <h1 class="w3-margin w3-xxlarge">Select Graph Type</h1>
+
+      <form id="graph-selection-form" class="w3-container">
+        <fieldset>
+          <legend class="w3-xlarge">2-Variable Graphs</legend>
+          <div class="w3-row-padding w3-center w3-margin-bottom">
+            <div class="w3-third">
+              <label>
+                <input type="radio" class="card-input-element" name="graphType" value="Bar">
+                <div class="w3-card-4 w3-white w3-padding-large w3-round-large card-input">
+                  <img src="assets/batch_bar_chart.svg" alt="Bar Chart" style="width:100%;">
+                  <div class="w3-container"><h3>Bar Chart</h3></div>
+                </div>
+              </label>
             </div>
-          <br>
-          <!-- Optional Graph Name Input -->
-          <div class="w3-input w3-large" style = "border-bottom:0px">
-            <label for="graphName">Graph Name (Optional):</label>
-            <input type="text" id="graphName" name="graphName" placeholder="Enter graph name">
+            <div class="w3-third">
+              <label>
+                <input type="radio" class="card-input-element" name="graphType" value="Line">
+                <div class="w3-card-4 w3-white w3-padding-large w3-round-large card-input">
+                  <img src="assets/batch_line_graph.svg" alt="Line Graph" style="width:100%;">
+                  <div class="w3-container"><h3>Line Graph</h3></div>
+                </div>
+              </label>
+            </div>
+            <div class="w3-third">
+              <label>
+                <input type="radio" class="card-input-element" name="graphType" value="Scatter">
+                <div class="w3-card-4 w3-white w3-padding-large w3-round-large card-input">
+                  <img src="assets/batch_scatterplot.svg" alt="Scatter Plot" style="width:100%;">
+                  <div class="w3-container"><h3>Scatter Plot</h3></div>
+                </div>
+              </label>
+            </div>
           </div>
+        </fieldset>
+
+        <fieldset>
+          <legend class="w3-xlarge w3-margin-top">3-Variable Graph</legend>
+          <div class="w3-row-padding w3-center">
+            <div class="w3-third">
+              <label>
+                <input type="radio" class="card-input-element" name="graphType" value="Heatmap">
+                <div class="w3-card-4 w3-white w3-padding-large w3-round-large card-input">
+                  <img src="assets/batch_heatmap_gray.svg" alt="Heatmap" style="width:100%;">
+                  <div class="w3-container"><h3>Heatmap</h3></div>
+                </div>
+              </label>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="w3-container w3-margin-top">
+          <label for="graphName"><b>Graph Name (Optional):</b></label>
+          <input class="w3-input w3-border w3-round" type="text" id="graphName" name="graphName" placeholder="Enter graph name" style="width:25%; margin:auto;">
         </div>
-        <br>
-          <!-- Confirm button -->
-          <button id = "submit" type="submit" class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Confirm</button>
+
+        <button type="submit" class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Confirm</button>
       </form>
     </div>
-  </header>
-</main>
+  </main>
 
 <!-- Footer -->
 <footer class="w3-container w3-padding-32 w3-center w3-opacity">  
