@@ -404,7 +404,7 @@ document.addEventListener('DOMContentLoaded', function() {
             dataset.backgroundColor[animationIndex - 1] = originalColors[animationIndex - 1];
         }
         // Highlight the current bar by setting its color to white
-        dataset.backgroundColor[animationIndex] = 'rgba(0, 0, 255, 1)';
+        dataset.backgroundColor[animationIndex] = 'rgba(0, 0, 255, 0.6)';
         chartReference.update();
         animationIndex++;
         // Schedule the next highlight based on the note duration
