@@ -371,15 +371,76 @@ document.getElementById('colorSlider')?.addEventListener('input', function () {
 
 // This is the fill color slider event listener
 document.getElementById('fillColorSlider')?.addEventListener('input', function () {
+	const selectedGraph = localStorage.getItem('selectedGraph');
 	if (window.myChart) {
 		const hue = this.value;
-		// this is for opacity
-		const color = `hsla(${hue}, 100%, 50%, 0.2)`;
+		if (selectedGraph && selectedGraph.toLowerCase() === 'heatmap') {
+			updateHeatmapFillColor(hue);
+		} else {
+			// this is for opacity
+			const color = `hsla(${hue}, 100%, 50%, 0.2)`;
 		
-		window.myChart.data.datasets[0].backgroundColor = color;
-		window.myChart.update();
+			window.myChart.data.datasets[0].backgroundColor = color;
+			window.myChart.update();
+			
+			document.getElementById('fillColorPreview').style.backgroundColor = `hsl(${hue}, 100%, 50%)`;
+			document.getElementById('fillColorValue').textContent = `Hue: ${hue}°`;
+	    
+		}
 		
-		document.getElementById('fillColorPreview').style.backgroundColor = `hsl(${hue}, 100%, 50%)`;
-		document.getElementById('fillColorValue').textContent = `Hue: ${hue}°`;
 	}
+});
+
+// This is to be able to customize heatmap
+document.addEventListener("DOMContentLoaded", function () {
+    const selectedGraph = localStorage.getItem('selectedGraph');
+    const colorSlider = document.getElementById('colorSlider');
+    const fillColorSlider = document.getElementById('fillColorSlider');
+    const zoomSlider = document.getElementById('zoomSlider');
+
+    function updateHeatmapFillColor(hue) {
+        if (selectedGraph && selectedGraph.toLowerCase() === 'heatmap') {
+            const plotlyDiv = document.getElementById('myPlotlyChart');
+            const newColorscale = [
+                [0, `hsl(${hue}, 100%, 50%)`],
+                [0.5, `hsl(${hue}, 100%, 75%)`],
+                [1, `hsl(${hue}, 100%, 90%)`]
+            ];
+            Plotly.restyle(plotlyDiv, {
+                colorscale: [newColorscale]
+            });
+            document.getElementById('fillColorPreview').style.backgroundColor = `hsl(${hue}, 100%, 50%)`;
+            document.getElementById('fillColorValue').textContent = `Hue: ${hue}°`;
+        }
+    }
+
+    function updateHeatmapZoom(zoomLevel) {
+        if (selectedGraph && selectedGraph.toLowerCase() === 'heatmap' && window.heatmapData) {
+            const plotlyDiv = document.getElementById('myPlotlyChart');
+            const layoutUpdate = {
+                'xaxis.range': [-0.5 * zoomLevel, (window.heatmapData.x.length - 0.5) * zoomLevel],
+                'yaxis.range': [-0.5 * zoomLevel, (window.heatmapData.y.length - 0.5) * zoomLevel]
+            };
+            Plotly.relayout(plotlyDiv, layoutUpdate);
+        }
+    }
+
+    if (fillColorSlider) {
+        fillColorSlider.addEventListener('input', function () {
+            const hue = this.value;
+            updateHeatmapFillColor(hue);
+        });
+    }
+
+    if (zoomSlider) {
+        zoomSlider.addEventListener('input', function () {
+            const zoomLevel = parseFloat(this.value);
+            updateHeatmapZoom(zoomLevel);
+            document.getElementById('zoomLevelValue').textContent = `Zoom: ${zoomLevel}x`;
+        });
+    }
+	// to disable color slider on heatmap since it doesnt work for Plotly
+    if (colorSlider) {
+        colorSlider.disabled = selectedGraph && selectedGraph.toLowerCase() === 'heatmap';
+    }
 });
