@@ -28,23 +28,17 @@
     <a href="index.html" class="w3-bar-item w3-button w3-padding-large" >Home</a>
     <button id="infoButton" class="icon-button"  aria-label="Information" aria-haspopup="dialog" aria-controls="infoModal">
           <img src="assets/info-icon.png" alt="">
-      </button>
-    <button id="settingsButton" class="icon-button" aria-label="Settings" aria-haspopup="dialog" aria-controls="settingsModal">
-        <img src="assets/settings-icon.png" alt="">
     </button>
   </div>
 
 <!--Modal Functions-->
 <div id="infoModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="infoModalTitle" tabindex="-1" hidden>
   <div class="modal-content">
-    <button id="infoButton" class="icon-button" aria-label="Information" aria-haspopup="dialog" aria-controls="infoModal">
-      <img src="assets/info-icon.png" alt="">
-    </button>
       <h2 id="infoModalTitle">Information</h2>
       <p>This application helps you convert graphical data into audible sounds, making data accessible for visually impaired users.</p>
-      <p>Upload Data: Directly upload a CSV file to generate a graph of.</p>
-      <p>Enter Data: Manually enter data through input boxes</p>
-      <button class="close-button" data-close="infoModal">Close</button>
+      <p>If you have already have data to upload, click the Upload Data button.</p>
+      <p>Otherwise, click the Enter Data button to enter numbers.</p>
+      <button class="close-button" data-close="infoModal" style="font-weight: bold; background-color:#648DE5;">Close</button>
   </div>
 </div> 
 

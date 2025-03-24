@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Index</title>
+  <title>Enter Data</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!--Links to W3 stylesheets-->
@@ -28,22 +28,22 @@
     <button id="infoButton" class="icon-button"  aria-label="Information" aria-haspopup="dialog" aria-controls="infoModal">
           <img src="assets/info-icon.png" alt="">
       </button>
-    <button id="settingsButton" class="icon-button" aria-label="Settings" aria-haspopup="dialog" aria-controls="settingsModal">
-        <img src="assets/settings-icon.png" alt="">
-    </button>
+
   </div>
 
   <!--Modal Functions-->
   <div id="infoModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="infoModalTitle" tabindex="-1" hidden>
     <div class="modal-content">
-      <button id="infoButton" class="icon-button" aria-label="Information" aria-haspopup="dialog" aria-controls="infoModal">
-        <img src="assets/info-icon.png" alt="">
       </button>
         <h2 id="infoModalTitle">Information</h2>
-        <p>This application helps you convert graphical data into audible sounds, making data accessible for visually impaired users.</p>
-        <button class="close-button" data-close="infoModal">Close</button>
+        <p>For each row, there is a label and a value.</p>
+        <p>To add a row, simply click the "Add Row" button.</p>
+        <p>The "Delete Row" option will delete the most recently added row.</p>
+        <p>Please note that it is not possible to enter enough data for a Heatmap here.</p>
+        <button class="close-button" data-close="infoModal" style="font-weight: bold; background-color:#648DE5;">Close</button>
     </div>
   </div> 
+  
     
   <!-- Navbar on small screens -->
   <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
