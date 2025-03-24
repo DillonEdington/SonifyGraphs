@@ -3,9 +3,9 @@ List of Bugs and minor issues I've found to work on
 Update List as new items are found and others are fixed.\
 -----------------------------------------------------------------------------------------
 1. Zoom function needs explanation/ clarity about how it shifts the y axis
-2. Information Tab needs to have relevant info for each page
+X. Information Tab needs to have relevant info for each page (just needs to be merged from katie's branch)
 3. Screen resizing screws with the UI making it inaccessible
 4. Navbar on mobile scale screens is broken/ doesn't have any functionality
 5. Audio control buttons not clickable within the textbox, only in the margins
-6. Logo covered by footer text
+X. Logo covered by footer text (not an issue)
 7. Heapmaps downloading feature does not work for both options
