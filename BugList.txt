@@ -8,3 +8,4 @@ Update List as new items are found and others are fixed.\
 4. Navbar on mobile scale screens is broken/ doesn't have any functionality
 5. Audio control buttons not clickable within the textbox, only in the margins
 6. Logo covered by footer text
+7. Heapmaps downloading feature does not work for both options
