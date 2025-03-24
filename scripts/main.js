@@ -8,9 +8,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function initializeHeader() {
     const infoButton = document.getElementById('infoButton');
-    const settingsButton = document.getElementById('settingsButton');
+    //const settingsButton = document.getElementById('settingsButton');
     const infoModal = document.getElementById('infoModal');
-    const settingsModal = document.getElementById('settingsModal');
+    //const settingsModal = document.getElementById('settingsModal');
 
     // Function to open a modal
     function openModal(modal) {
@@ -68,9 +68,9 @@ function initializeHeader() {
         openModal(infoModal);
     });
 
-    settingsButton.addEventListener('click', function() {
+   /* settingsButton.addEventListener('click', function() {
         openModal(settingsModal);
-    });
+    });*/
 
     // Event listeners for closing modals
     document.querySelectorAll('.close-button').forEach(function(button) {
