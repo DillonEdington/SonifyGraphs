@@ -99,16 +99,20 @@
       <div class="playback-controls">
           <!-- Buttons and controls for sonification -->
           <br>
-          <button id="playButton" class="w3-button w3-black" style="margin:auto;" aria-label="Play Sonification">Play</button>
-          <button id="pauseButton" class="w3-button w3-black" style="margin:auto;" aria-label="Pause Sonification" disabled>Pause</button>
-          <button id="resetButton" class="w3-button w3-black" style="margin:auto;" aria-label="Reset Sonification">Reset</button>
+          <div class="buttons">
+            <button id="playButton" class="w3-button w3-black" style="margin:auto;" aria-label="Play Sonification">Play</button>
+            <button id="pauseButton" class="w3-button w3-black" style="margin:auto;" aria-label="Pause Sonification" disabled>Pause</button>
+            <button id="resetButton" class="w3-button w3-black" style="margin:auto;" aria-label="Reset Sonification">Reset</button>
+          </div>
+          <br>
           <!-- Speed control slider -->
-          <div class="speed-control" style="position:relative; left:15%; bottom:30px;">
+          <div class="speed-control" >
               <label for="speedRange" style="position:relative; bottom:4px;">Speed:</label>
               <input  type="range" id="speedRange" min="0.5" max="10" value="1" step="0.1" aria-valuemin="0.5" aria-valuemax="10" aria-valuenow="1" aria-label="Playback Speed">
               <span id="speedValue" style="position:relative; bottom:4px;">1x</span>
           </div>
       </div>
+      <br>
             <a id="downloadChartPNG" class="w3-button" style="background-color: #8B687F; color:white;">Download Transparent Image</a>
             <a id="downloadChartJPEG" class="w3-button"style="background-color: #8B687F; color:white;">Download Opaque Image</a>
     </div>
