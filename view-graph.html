@@ -29,21 +29,23 @@
       <button id="infoButton" class="icon-button"  aria-label="Information" aria-haspopup="dialog" aria-controls="infoModal">
         <img src="assets/info-icon.png" alt="">
       </button>
-      <button id="settingsButton" class="icon-button" aria-label="Settings" aria-haspopup="dialog" aria-controls="settingsModal">
-          <img src="assets/settings-icon.png" alt="">
-      </button>
+  
     </div>
     <!--Modal Functions-->
     <div id="infoModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="infoModalTitle" tabindex="-1" hidden>
       <div class="modal-content">
-        <button id="infoButton" class="icon-button" aria-label="Information" aria-haspopup="dialog" aria-controls="infoModal">
-          <img src="assets/info-icon.png" alt="">
         </button>
           <h2 id="infoModalTitle">Information</h2>
-          <p>This application helps you convert graphical data into audible sounds, making data accessible for visually impaired users.</p>
-          <button class="close-button" data-close="infoModal">Close</button>
+          <p>This page generates a graph based on the inputted data and the graph type selected.</p>
+          <p>To customize the look of your graph, there are several options in the "Customize Graph" menu beside the graph. These include: Zoom, Outline Color, and Fill Color.</p>
+          <p>To play the sonification of the graph, click the "Play" button below the graph. Audio should immediately play. If you can't hear anything, please check that your tab is allowed to play sounds.</p>
+          <p>You can also change the speed at which the audio is played by moving the speed slider.</p>
+          <p>To download your graph, select either the "Download Transparent" or "Download Opaque" Image option. Transparent and Opaque refer to the background of the graph.</p>
+          <p>To generate a new graph, click the "New Graph" button which will send you back to the home page of this application.</p>
+          <button class="close-button" data-close="infoModal" style="font-weight: bold; background-color:#648DE5;">Close</button>
       </div>
     </div> 
+    
     
     <!-- Navbar on small screens -->
     <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">

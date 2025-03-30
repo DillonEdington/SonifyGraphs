@@ -28,22 +28,20 @@
     <button id="infoButton" class="icon-button"  aria-label="Information" aria-haspopup="dialog" aria-controls="infoModal">
       <img src="assets/info-icon.png" alt="">
     </button>
-    <button id="settingsButton" class="icon-button" aria-label="Settings" aria-haspopup="dialog" aria-controls="settingsModal">
-      <img src="assets/settings-icon.png" alt="">
-    </button>
   </div>
 
   <!--Modal Functions-->
   <div id="infoModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="infoModalTitle" tabindex="-1" hidden>
     <div class="modal-content">
-      <button id="infoButton" class="icon-button" aria-label="Information" aria-haspopup="dialog" aria-controls="infoModal">
-        <img src="assets/info-icon.png" alt="">
       </button>
         <h2 id="infoModalTitle">Information</h2>
-        <p>This application helps you convert graphical data into audible sounds, making data accessible for visually impaired users.</p>
-        <button class="close-button" data-close="infoModal">Close</button>
+        <p>Select the CSV file you want to turn into a graph by clicking the "Choose CSV File" button.</p>
+        <P>Keep in mind that Heatmaps require three columns of data to be processed correctly. </P>
+        <p> All other graph types only require 2.</P>
+        <button class="close-button" data-close="infoModal" style="font-weight: bold; background-color:#648DE5;">Close</button>
     </div>
   </div> 
+  
   
   <!-- Navbar on small screens -->
   <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
@@ -55,8 +53,6 @@
 <!-- Header -->
 <div class="w3-container w3-center" style="padding:128px 16px; background-color:#648DE5;">
   <h1 class="w3-margin w3-xxxlarge">Upload Data</h1>
-  <p class="w3-large">Select the CSV file you want to turn into a graph by clicking the button below.</p>
-  <p class="w3-medium">(Note: Heatmaps require three columns of data to be processed, all other graph types require two)</p>
     <div class = "form-container">
       <!-- File input and label -->
       <label for="fileInput" class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Choose CSV File</label>
