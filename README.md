@@ -13,10 +13,10 @@ John Whitgrove
 Katie Williams
 Dillon Wright
 ----------------------------------------------------------------------------------------------------
-Accees website through Github Pages:
+Access website through Github Pages:
 https://dillonedington.github.io/SonifyGraphs/
 ----------------------------------------------------------------------------------------------------
-Instructions to run website:
+Instructions to run the website:
 1. Download the zip files and unzip onto your computer.  
 2. Open the folder in file explorer to view the html files. 
 3. Select and open the index.html file in your browser of choice to start using the
