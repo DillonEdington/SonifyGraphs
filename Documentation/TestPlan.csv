@@ -1,0 +1,48 @@
+Test Planner and Tracker,,,"Team-name
+Team 6 (Sonify)",,,
+"Test 
+No. ID","Related Systems 
+/ User Story ",Pre-conditions,"Test Description (steps) 
+",Expected Outcome,"R1 Outcome (color code
+cell background)",
+1.1,Upload Data,"1. The website is accessible and functional in a modern web browser.
+2. Internet connection is stable.
+3. User is on the upload page with a valid CSV file. ","1. User selects ""Choose CSV file"" from upload page
+2. User selects .csv file from computer
+3. User clicks ""Upload""","File is accepted, parsed, and ready for graph generation. User is taken to graph selection page.",Passed,
+1.2,,"1. The website is accessible and functional in a modern web browser.
+2. Internet connection is stable
+3. User is on the upload page with an invalid file. ","1. User selects ""Choose CSV file"" from upload page
+2. User selects file not .csv from computer
+3. User clicks ""Upload""","System displays error message for user, ""Invalid file type. Please upload a CSV file.""",Passed,
+2.1,Manual Data Entry,"1. The website is accessible and functional in a modern web browser.
+2. Internet connection is stable.
+3. User is on the manual data entry page.","1. User inputs at least two rows of data into cells.
+2. User clicks ""Continue"".","System validates data, and data is ready for graph generation. User is taken to graph selection page.",Passed,
+2.2,,,"1. User clicks ""Add Row"" button.",System displays additional row for data entry.,Passed,
+2.3,,,"1. User clicks ""Delete Row"" button.",System deletes last row.,Passed,
+2.4,,,1. User leaves data cells empty.,"System displays error message for user, ""Please fill out this field.""",Passed,
+2.5,,,1. User fills data cells with invalid inputs,System displays error message for user and does not let user proceed.,Passed,
+3.1,Generate Graph,"1. The website is accessible and functional in a modern web browser.
+2. Internet connection is stable.
+3. User has entered/uploaded valid data.","1. User enters data through data upload.
+2. User selects line/bar/scatter plot graph option.",System takes user to view graph page and displays accurate graph of data points. All controls are present.,Passed,
+3.2,,,"1. User enters data through manual data entry.
+2. User selects line/bar/scatter plot graph option. 
+3. User enters custom name for graph",System takes user to view graph page and displays accurate graph of data points. All controls are present.,Passed,
+,,,1. User enters/uploads large set of data.,System generates and displays graph without noticeable performance issues.,Passed,
+3.3,,"1. The website is accessible and functional in a modern web browser.
+2. Internet connection is stable.
+3. User has entered/uploaded valid data
+4. System is displaying user graph.",1. User resizes window.,System adjusts graph dynamically to fit the new screen size. All controls are present.,Passed,
+4.1,Sonify Graph,"1. The website is accessible and functional in a modern web browser.
+2. Internet connection is stable.
+3. System is displaying user graph and sonification controls are present.","1. User clicks ""Start"" button.",System begins to play graph sonification.,Passed,
+4.2,,,"1. User clicks ""Pause"" button. ",System stops graph sonification if it is playing.,Passed,
+4.3,,,"1. User clicks ""Reset"" button.",System resets graph sonification from any point.,Passed,
+4.4,,,1. User adjusts playback speed slider.,System plays sonification playback speed accordingly.,Passed,
+,,,"1. User enters valid ""Start"" and ""Stop"" indices for sonification.",System begins sonification at start index and stops at stop index.,Passed,
+4.5,,,"1. User enters invalid ""Start and ""Stop"" indices for sonification.",System displays error message telling user to enter valid indices and gives range allowed.,Passed,
+5.1,Export Graph,"1. The website is accessible and functional in a modern web browser.
+2. Internet connection is stable.
+3. System is displaying user graph.","1. User click ""Export Graph""",System starts PNG download of user graph.,Passed,
